@@ -1,0 +1,84 @@
+﻿@model IEnumerable<LicensingSolution.Models.Driver>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<!DOCTYPE html>
+<html>
+<body class="sidebar-mini fixed">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <table class="table table-hover table-bordered" id="table_id" style="width: 100%">
+                        <thead>
+                            <tr>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.FullName)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.DriverId)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.DrivingLicence.LicenceExpiryDate)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.DrivingLicence.PDPExpiryDate)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Owner)
+                                </th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.FullName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.DriverId)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.DrivingLicence.LicenceExpiryDate)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.DrivingLicence.PDPExpiryDate)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Owner.FullName)
+                                    </td>
+                                    <td>
+                                        <a asp-action="Edit" asp-route-id="@item.DriverId">Edit</a> |
+                                        <a asp-action="Details" asp-route-id="@item.DriverId">Details</a> |
+                                        <a asp-action="Delete" asp-route-id="@item.DriverId">Delete</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="~/DataTables/jquery-3.4.1.js"></script>
+    <link href="~/DataTables/DataTables-1.10.18/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+    <link href="~/DataTables/datatables.min.css" rel="stylesheet" type="text/css" />
+    <script src="~/DataTables/datatables.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        $('#table_id').DataTable({
+            "scrollY": 250,
+            "scrollX": true
+        });
+        responsive: true
+    </script>
+</body>
+</html>

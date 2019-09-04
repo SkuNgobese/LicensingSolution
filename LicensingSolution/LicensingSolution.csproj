@@ -1,0 +1,43 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <UserSecretsId>aspnet-LicensingSolution-83AE1495-6D40-491B-9E19-379237E91F07</UserSecretsId>
+    <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
+    <TypeScriptToolsVersion>3.1</TypeScriptToolsVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Data\Migrations\20190821190031_final.cs" />
+    <Compile Remove="Data\Migrations\20190821190031_final.Designer.cs" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <PackageReference Include="Bitmap.Net" Version="1.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
+    <PackageReference Include="Sendgrid" Version="9.12.0" />
+    <PackageReference Include="Twilio" Version="5.31.4" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Folder Include="wwwroot\ImageFiles\" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <None Include="wwwroot\fonts\Roboto\Roboto-Black.woff2" />
+    <None Include="wwwroot\fonts\Roboto\Roboto-Bold.woff2" />
+    <None Include="wwwroot\fonts\Roboto\Roboto-Light.woff2" />
+    <None Include="wwwroot\fonts\Roboto\Roboto-Medium.woff2" />
+    <None Include="wwwroot\fonts\Roboto\Roboto-Regular.woff2" />
+    <None Include="wwwroot\images\auth\login-bg.jpg" />
+    <None Include="wwwroot\images\faces\face2.jpg" />
+    <None Include="wwwroot\images\faces\face3.jpg" />
+    <None Include="wwwroot\images\faces\face4.jpg" />
+  </ItemGroup>
+
+</Project>

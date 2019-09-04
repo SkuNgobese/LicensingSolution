@@ -1,0 +1,71 @@
+﻿@page
+@model LoginModel
+
+@{
+    ViewData["Title"] = "Log in";
+    Layout = "~/Views/Shared/_LoginLayout.cshtml";
+}
+
+<div class="container-scroller">
+    <div class="container-fluid page-body-wrapper full-page-wrapper">
+        <div class="content-wrapper d-flex align-items-stretch auth auth-img-bg">
+            <div class="row flex-grow">
+                <div class="col-lg-6 d-flex align-items-center justify-content-center">
+                    <div class="auth-form-transparent text-left p-3">
+                        <div class="brand-logo text-center">
+                            <img src="~/images/logo.png" alt="logo">
+                        </div>
+                        <div class="text-center mt-lg-5 font-weight-bold">
+                            <h4>LICENCING SOLUTION</h4>
+                        </div>
+                        <form class="pt-3" id="account" method="post">
+                            <div asp-validation-summary="All" class="text-danger"></div>
+                            <div class="form-group">
+                                <label asp-for="Input.Email">Username</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend bg-transparent">
+                                        <span class="input-group-text bg-transparent border-right-0">
+                                            <i class="mdi mdi-account-outline text-primary"></i>
+                                        </span>
+                                    </div>
+                                    <input asp-for="Input.Email" class="form-control form-control-lg border-left-0" placeholder="Username" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Input.Password">Password</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend bg-transparent">
+                                        <span class="input-group-text bg-transparent border-right-0">
+                                            <i class="mdi mdi-lock-outline text-primary"></i>
+                                        </span>
+                                    </div>
+                                    <input asp-for="Input.Password" class="form-control form-control-lg border-left-0" placeholder="Password" />
+                                </div>
+                            </div>
+                            <div class="my-2 d-flex justify-content-between align-items-center">
+                                <div class="form-check">
+                                    <label class="form-check-label text-muted">
+                                        <input asp-for="Input.RememberMe" class="form-check-input">
+                                        Keep me signed in
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="my-3">
+                                <button type="submit" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn">LOGIN</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-lg-6 login-half-bg d-flex flex-row">
+                    <p class="text-white font-weight-medium text-center flex-grow align-self-end">Copyright &copy; 2019 - @DateTime.Today.Year  All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+        <!-- content-wrapper ends -->
+    </div>
+    <!-- page-body-wrapper ends -->
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

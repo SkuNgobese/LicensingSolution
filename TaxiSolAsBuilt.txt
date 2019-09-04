@@ -1,0 +1,7 @@
+http://taxisolution.co.za/
+
+CPanel username:krmnyasu
+CPanel pw: 2m8Px!DfHS$PZ5Z7nN
+
+database username:TaxiSolutionDB
+database pw:2m8Px!DfHS$PZ5Z7nN

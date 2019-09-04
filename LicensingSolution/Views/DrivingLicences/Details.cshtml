@@ -1,0 +1,39 @@
+﻿@model LicensingSolution.Models.DrivingLicence
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<div>
+    <div class="card">
+        <div class="card-body">
+            <h2 class="card-title mdi mdi-rename-box text-lg-right">Driving Licence</h2>
+            <img class="img-lg" src="@Model.Driver.ImgPath" asp-append-version="true" alt="DriverPhoto" />
+            <hr />
+            <dl class="row">
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.LicenceExpiryDate)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.LicenceExpiryDate)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.PDPExpiryDate)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.PDPExpiryDate)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Driver)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Driver.DriverId)
+                </dd>
+            </dl>
+        </div>
+        <div>
+            <a asp-action="Edit" asp-route-id="@Model.LicenceNumber">Edit</a> |
+            <a asp-action="Index">Back to List</a>
+        </div>
+    </div>
+</div>
