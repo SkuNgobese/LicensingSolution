@@ -38,7 +38,12 @@ namespace LicensingSolution.Controllers
         // GET: Owners
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Owners.ToListAsync());
+            var applicationDbContext = _context.Owners
+                .Include(a => a.Association)
+                .Include(d => d.Drivers)
+                .Include(o => o.OperatingLicences)
+                .Include(v => v.VehicleLicences);
+            return View(await applicationDbContext.ToListAsync());
         }
 
         // GET: Owners/Details/5

@@ -28,7 +28,9 @@ namespace LicensingSolution.Controllers
         // GET: Drivers
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Drivers.Include(d => d.Owner);
+            var applicationDbContext = _context.Drivers
+                .Include(l => l.DrivingLicence)
+                .Include(d => d.Owner);
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -41,6 +43,7 @@ namespace LicensingSolution.Controllers
             }
 
             var driver = await _context.Drivers
+                .Include(l => l.DrivingLicence)
                 .Include(d => d.Owner)
                 .FirstOrDefaultAsync(m => m.DriverId == id);
             if (driver == null)
@@ -177,6 +180,7 @@ namespace LicensingSolution.Controllers
             }
 
             var driver = await _context.Drivers
+                .Include(l => l.DrivingLicence)
                 .Include(d => d.Owner)
                 .FirstOrDefaultAsync(m => m.DriverId == id);
             if (driver == null)

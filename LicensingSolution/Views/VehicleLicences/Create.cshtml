@@ -58,8 +58,9 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label class="control-label">Owner's ID Number</label>
-                    <input name="OwnerIDNumber" class="form-control" />
+                    <label asp-for="OwnerId" class="control-label"></label>
+                    <input asp-for="OwnerId" class="form-control" />
+                    <span asp-validation-for="OwnerId" class="text-danger"></span>
                 </div>
                 <div class="form-group row">
                     <input type="submit" value="Submit" class="btn btn-primary" />

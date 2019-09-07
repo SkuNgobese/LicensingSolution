@@ -67,7 +67,7 @@ namespace LicensingSolution.Controllers
             var owner = await _context.Owners.FindAsync(vehicleLicence.OwnerId);
             if (owner == null)
             {
-                ModelState.AddModelError("", "Owner with this ID Number does not exist in the system");
+                ModelState.AddModelError("OwnerId", "Owner with this ID Number does not exist");
             }
             if (ModelState.IsValid)
             {
