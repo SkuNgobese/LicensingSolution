@@ -87,7 +87,7 @@ namespace LicensingSolution.Controllers
                     {
                         foreach (var ol in operatingLicences)
                         {
-                            var owner = await _context.Owners.FindAsync(ol.OwnerIDNumber);
+                            var owner = await _context.Owners.FindAsync(ol.OwnerId);
                             owners.Add(owner);
                         }
                     }
@@ -100,7 +100,7 @@ namespace LicensingSolution.Controllers
                         
                         foreach (var vl in vehicleLicences)
                         {
-                            var owner = await _context.Owners.FindAsync(vl.OwnerIDNumber);
+                            var owner = await _context.Owners.FindAsync(vl.OwnerId);
                             owners.Add(owner);
                         }
                     }

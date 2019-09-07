@@ -45,7 +45,7 @@ namespace LicensingSolution.Models
 
         [ForeignKey("Owner")]
         [Required(ErrorMessage = "Please enter {0}")]
-        [Display(Name = "Owner's ID Number")]
+        [Display(Name = "Owner's ID")]
         public string OwnerId { get; set; }
         public virtual Owner Owner { get; set; }  
         

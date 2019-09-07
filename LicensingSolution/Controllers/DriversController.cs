@@ -54,7 +54,6 @@ namespace LicensingSolution.Controllers
         // GET: Drivers/Create
         public IActionResult Create()
         {
-            ViewData["OwnerId"] = new SelectList(_context.Owners, "OwnerId", "OwnerId");
             return View();
         }
 
@@ -72,7 +71,7 @@ namespace LicensingSolution.Controllers
             }
             if (DrivingLicenceExists(driver.DrivingLicence.LicenceNumber))
             {
-                ModelState.AddModelError("driver.DrivingLicence.LicenceNumber", $"Licence Number: {driver.DrivingLicence.LicenceNumber} already exist");
+                ModelState.AddModelError("DrivingLicence.LicenceNumber", $"Licence Number: {driver.DrivingLicence.LicenceNumber} already exist");
             }
             if (owner == null)
             {
@@ -106,11 +105,13 @@ namespace LicensingSolution.Controllers
                     }
                     driver.ImgPath = pathToSave;
                 }
+                driver.Owner = owner;
                 _context.Add(driver);
+                driver.DrivingLicence.Driver = driver;
+                _context.Add(driver.DrivingLicence);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["OwnerId"] = new SelectList(_context.Owners, "OwnerId", "OwnerId", driver.OwnerId);
             return View(driver);
         }
 

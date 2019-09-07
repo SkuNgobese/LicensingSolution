@@ -70,8 +70,8 @@ namespace LicensingSolution.Models
         public DateTime ValidUntil { get; set; }
 
         [ForeignKey("Owner")]
-        [Display(Name = "Owner's ID Number")]
-        public string OwnerIDNumber { get; set; }
+        [Display(Name = "Owner's ID")]
+        public string OwnerId { get; set; }
         public virtual Owner Owner { get; set; }
         public virtual Association Association { get; set; }
 

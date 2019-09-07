@@ -10,7 +10,7 @@ namespace LicensingSolution.Models
     {
         public Association()
         {
-            Users = new List<User>();
+            ApplicationUsers = new List<ApplicationUser>();
             Owners = new List<Owner>();
         }
         [Key]
@@ -21,7 +21,7 @@ namespace LicensingSolution.Models
         [Display(Name = "Name")]
         public string Name { get; set; }
 
-        public virtual ICollection<User> Users { get; set; }
+        public virtual ICollection<ApplicationUser> ApplicationUsers { get; set; }
         public virtual ICollection<Owner> Owners { get; set; }
     }
 }

@@ -29,7 +29,7 @@ namespace LicensingSolution.Models
         public DateTime PDPExpiryDate { get; set; }
 
         [ForeignKey("Driver")]
-        [Display(Name = "Driver's ID Number")]
+        [Display(Name = "Driver's ID")]
         public string DriverId { get; set; }
 
         public virtual Driver Driver { get; set; }

@@ -1,0 +1,30 @@
+﻿@model LicensingSolution.Models.Association
+
+@{
+    ViewData["Title"] = "Create";
+}
+<div class="col-12 grid-margin">
+    <div class="card">
+        <div class="card-body">
+            <h2 class="card-title mdi mdi-rename-box text-lg-right">Associations</h2>
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group row">
+                    <label asp-for="Name" class="control-label"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="form-group row">
+                    <input type="submit" value="Submit" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

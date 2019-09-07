@@ -16,17 +16,18 @@ using Microsoft.Extensions.Logging;
 
 namespace LicensingSolution.Areas.Identity.Pages.Account
 {
+    [AllowAnonymous]
     public class RegisterModel : PageModel
     {
-        private readonly SignInManager<IdentityUser> _signInManager;
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
         private readonly ApplicationDbContext _context;
         
         public RegisterModel(
-            UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager,
+            UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender,
             ApplicationDbContext context)
@@ -46,10 +47,9 @@ namespace LicensingSolution.Areas.Identity.Pages.Account
 
         public string ReturnUrl { get; set; }
 
-        public SelectList AssociationNameSL { get; set; }
-
         public class InputModel
         {
+            [Required(ErrorMessage = "Please choose Salutation")]
             [Display(Name = "Title")]
             public string Title { get; set; }
 
@@ -72,7 +72,7 @@ namespace LicensingSolution.Areas.Identity.Pages.Account
             [Required(ErrorMessage = "Please select {0}")]
             public int AssociationId { get; set; }
 
-            [Required(ErrorMessage = "Please select user {0}")]
+            [Required(ErrorMessage = "Please select {0}")]
             [Display(Name = "Role")]
             public string Role { get; set; }
 
@@ -91,22 +91,10 @@ namespace LicensingSolution.Areas.Identity.Pages.Account
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
-        }
-
-        public void PopulateAssociationsDropdownList(object selectedAssociation = null)
-        {
-            //var associationsQuery = (from d in _context.Associations
-            //                            orderby d.Name // Sort by name.
-            //                            select d);
-
-            //AssociationNameSL = new SelectList(associationsQuery.AsNoTracking(),
-            //            "AssociationId", "Name", selectedAssociation);
-        }
+        }       
 
         public void OnGet(string returnUrl = null)
         {
-            //PopulateAssociationsDropdownList();
-            AssociationNameSL = new SelectList(_context.Associations, "AssociationId", "Name");
             ReturnUrl = returnUrl;
         }
 
@@ -115,8 +103,7 @@ namespace LicensingSolution.Areas.Identity.Pages.Account
             returnUrl = returnUrl ?? Url.Content("~/");
             if (ModelState.IsValid)
             {
-                var user = new IdentityUser { UserName = Input.Email, Email = Input.Email };
-                //var userinfo = new UserContact { Title = Input.Title, FirstName = Input.FirstName, LastName = Input.LastName };
+                var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email, Title = Input.Title, FirstName = Input.FirstName, MiddleName = Input.MiddleName, LastName = Input.LastName, AssociationId = Input.AssociationId };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
@@ -129,6 +116,10 @@ namespace LicensingSolution.Areas.Identity.Pages.Account
                     if (Input.Role == "AssociationClerk")
                     {
                         await _userManager.AddToRoleAsync(user, "AssociationClerk");
+                    }
+                    if (Input.Role == "Superuser")
+                    {
+                        await _userManager.AddToRoleAsync(user, "Superuser");
                     }
                     _logger.LogInformation("User added to role.");
 
@@ -152,7 +143,6 @@ namespace LicensingSolution.Areas.Identity.Pages.Account
             }
 
             // If we got this far, something failed, redisplay form
-            PopulateAssociationsDropdownList();
             return Page();
         }
     }

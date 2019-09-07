@@ -19,6 +19,8 @@ using System.Net.Mail;
 using System.Net;
 using Microsoft.Extensions.Hosting;
 using LicensingSolution.Models;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using LicensingSolution.Models.Services;
 
 namespace LicensingSolution
 {
@@ -44,10 +46,20 @@ namespace LicensingSolution
                     options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddDefaultIdentity<IdentityUser>()
+            services.AddDefaultIdentity<ApplicationUser>(config =>
+                {
+                    config.SignIn.RequireConfirmedEmail = true;
+                })
                 .AddRoles<IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultUI(UIFramework.Bootstrap4)
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+                .AddDefaultTokenProviders();
+
+            // requires
+            // using Microsoft.AspNetCore.Identity.UI.Services;
+            // using WebPWrecover.Services;
+            services.AddTransient<IEmailSender, EmailSender>();
+            services.Configure<AuthMessageSenderOptions>(Configuration);
 
             services.Configure<IdentityOptions>(options =>
             {
@@ -89,7 +101,7 @@ namespace LicensingSolution
                 config.Filters.Add(new AuthorizeFilter(policy));
             })
             .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-            services.AddSingleton<IHostedService, EmailController>();
+            services.AddSingleton<IHostedService, Reminder>();
             services.AddSingleton<IFileProvider>(new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/ImageFiles")));
             services.AddSingleton(Configuration);
         }
@@ -139,12 +151,12 @@ namespace LicensingSolution
 
         private static async Task<string> EnsureUser(IServiceProvider serviceProvider, string DefaultPW, string UserName)
         {
-            var userManager = serviceProvider.GetService<UserManager<IdentityUser>>();
+            var userManager = serviceProvider.GetService<UserManager<ApplicationUser>>();
 
             var user = await userManager.FindByNameAsync(UserName);
             if (user == null)
             {
-                user = new IdentityUser { UserName = UserName, Email = UserName };
+                user = new ApplicationUser { UserName = UserName, Email = UserName };
                 await userManager.CreateAsync(user, DefaultPW);
             }
 
@@ -176,7 +188,7 @@ namespace LicensingSolution
                 IR = await roleManager.CreateAsync(new IdentityRole("AssociationClerk"));
             }
 
-            var userManager = serviceProvider.GetService<UserManager<IdentityUser>>();
+            var userManager = serviceProvider.GetService<UserManager<ApplicationUser>>();
 
             var user = await userManager.FindByIdAsync(uid);
 

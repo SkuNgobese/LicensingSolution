@@ -58,19 +58,19 @@ namespace LicensingSolution.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(OperatingLicence operatingLicence, string OwnerIDNumber)
+        public async Task<IActionResult> Create(OperatingLicence operatingLicence)
         {
             if (OperatingLicenceExists(operatingLicence.OperatingLicenceNumber))
             {
                 ModelState.AddModelError("OperatingLicenceNumber", $"Operating Licence Number: {operatingLicence.OperatingLicenceNumber} already exist");
             }
+            var owner = await _context.Owners.FindAsync(operatingLicence.OwnerId);
+            if (owner == null)
+            {
+                ModelState.AddModelError("OwnerIDNumber", "Owner with this ID Number does not exist in the system");
+            }
             if (ModelState.IsValid)
             {
-                var owner = await _context.Owners.FindAsync(OwnerIDNumber);
-                if (owner == null)
-                {
-                    ModelState.AddModelError("", "Owner with this ID Number does not exist in the system");
-                }
                 operatingLicence.Owner = owner;
                 _context.Add(operatingLicence);
                 await _context.SaveChangesAsync();

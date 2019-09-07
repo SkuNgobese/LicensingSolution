@@ -14,7 +14,7 @@
                 <div class="row mb-20">
                     <div class="col-md-6">
                         <div class="form-group row">
-                            <div class="col-sm-5">
+                            <div class="col-sm-3">
                                 <div class="form-check">
                                     <label class="form-check-label">
                                         <input type="radio" class="form-control" asp-for="Input.Role" value="Owner">
@@ -22,11 +22,19 @@
                                     </label>
                                 </div>
                             </div>
-                            <div class="col-sm-6">
+                            <div class="col-sm-3">
                                 <div class="form-check">
                                     <label class="form-check-label">
                                         <input type="radio" class="form-control" asp-for="Input.Role" value="AssociationClerk">
                                         Association Clerk
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-check">
+                                    <label class="form-check-label">
+                                        <input type="radio" class="form-control" asp-for="Input.Role" value="Superuser">
+                                        Superuser
                                     </label>
                                 </div>
                             </div>
@@ -52,16 +60,24 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group row">
+                            <label asp-for="Input.MiddleName" class="control-label"></label>
+                            <input asp-for="Input.MiddleName" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-20">
+                    <div class="col-md-6">
+                        <div class="form-group row">
                             <label asp-for="Input.LastName" class="control-label"></label>
                             <input asp-for="Input.LastName" class="form-control" />
                         </div>
                     </div>
-                </div>
-                <div class="form-group row">
-                    <label asp-for="Input.AssociationId" class="control-label"></label>
-                    @*@Html.DropDownListFor(model => model.Input.AssociationId, TempData["AssList"] as List<SelectListItem>, "--Choose Association--", new { @class = "form-control" })*@
-                    <input asp-for="AssociationNameSL" class="form-control" />
-                    <span asp-validation-for="Input.AssociationId" class="text-danger"></span>
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <label asp-for="Input.AssociationId" class="control-label"></label>
+                            <input asp-for="Input.AssociationId" class="form-control" />
+                        </div>
+                    </div>
                 </div>
                 <div class="form-group row">
                     <label>Username</label>
@@ -71,7 +87,7 @@
                                 <i class="mdi mdi-account-outline text-primary"></i>
                             </span>
                         </div>
-                        <input asp-for="Input.Email" class="form-control form-control-lg border-left-0" placeholder="Username">
+                        <input asp-for="Input.Email" class="form-control border-left-0" placeholder="Username">
                     </div>
                 </div>
                 <div class="form-group row">
@@ -82,7 +98,7 @@
                                 <i class="mdi mdi-lock-outline text-primary"></i>
                             </span>
                         </div>
-                        <input asp-for="Input.Password" class="form-control form-control-lg border-left-0" id="exampleInputPassword" placeholder="Password">
+                        <input asp-for="Input.Password" class="form-control border-left-0" id="exampleInputPassword" placeholder="Password">
                     </div>
                 </div>
                 <div class="form-group row">
@@ -93,7 +109,7 @@
                                 <i class="mdi mdi-lock-outline text-primary"></i>
                             </span>
                         </div>
-                        <input asp-for="Input.ConfirmPassword" class="form-control form-control-lg border-left-0" id="exampleInputPassword" placeholder="Password">
+                        <input asp-for="Input.ConfirmPassword" class="form-control border-left-0" id="exampleInputPassword" placeholder="Password">
                     </div>
                 </div>
                 <div class="mt-3">

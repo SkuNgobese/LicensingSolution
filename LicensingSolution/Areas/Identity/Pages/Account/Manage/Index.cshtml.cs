@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using LicensingSolution.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -13,13 +14,13 @@ namespace LicensingSolution.Areas.Identity.Pages.Account.Manage
 {
     public partial class IndexModel : PageModel
     {
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IEmailSender _emailSender;
 
         public IndexModel(
-            UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager,
+            UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager,
             IEmailSender emailSender)
         {
             _userManager = userManager;
@@ -85,9 +86,10 @@ namespace LicensingSolution.Areas.Identity.Pages.Account.Manage
 
             Input = new InputModel
             {
-                //Title = user.Title,
-                //FirstName = user.FirstName,
-                //LastName = user.LastName,
+                Title = user.Title,
+                FirstName = user.FirstName,
+                MiddleName = user.LastName,
+                LastName = user.LastName,
                 Email = email,
                 PhoneNumber = phoneNumber
             };
@@ -121,20 +123,25 @@ namespace LicensingSolution.Areas.Identity.Pages.Account.Manage
                 }
             }
 
-            //if (Input.LastName != user.LastName)
-            //{
-            //    user.LastName = Input.LastName;
-            //}
+            if (Input.Title != user.Title)
+            {
+                user.Title = Input.Title;
+            }
 
-            //if (Input.FirstName != user.FirstName)
-            //{
-            //    user.FirstName = Input.FirstName;
-            //}
+            if (Input.FirstName != user.FirstName)
+            {
+                user.FirstName = Input.FirstName;
+            }
 
-            //if (Input.Title != user.Title)
-            //{
-            //    user.Title = Input.Title;
-            //}
+            if (Input.MiddleName != user.MiddleName)
+            {
+                user.MiddleName = Input.MiddleName;
+            }
+
+            if (Input.LastName != user.LastName)
+            {
+                user.LastName = Input.LastName;
+            }
 
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
             if (Input.PhoneNumber != phoneNumber)

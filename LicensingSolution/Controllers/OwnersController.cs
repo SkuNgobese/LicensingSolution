@@ -16,7 +16,6 @@ namespace LicensingSolution.Controllers
     public class OwnersController : Controller
     {
         private readonly ApplicationDbContext _context;
-        //public SelectList AssociationNameSL { get; set; }
 
         public OwnersController(ApplicationDbContext context)
         {

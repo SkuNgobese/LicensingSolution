@@ -66,9 +66,13 @@ namespace LicensingSolution.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(DrivingLicence drivingLicence, string OwnerIDNumber, IFormFile image)
+        public async Task<IActionResult> Create(DrivingLicence drivingLicence, IFormFile image)
         {
-            
+            var owner = await _context.Owners.FindAsync(drivingLicence.Driver.OwnerId);
+            if (owner == null)
+            {
+                ModelState.AddModelError("", "Owner with this ID Number does not exist in the system");
+            }
             if (DriverExists(drivingLicence.Driver.DriverId))
             {
                 ModelState.AddModelError("Driver.IDNumber", $"Driver's ID Number: {drivingLicence.Driver.DriverId} already exist");
@@ -92,11 +96,6 @@ namespace LicensingSolution.Controllers
             }            
             if (ModelState.IsValid)
             {
-                var owner = await _context.Owners.FindAsync(OwnerIDNumber);
-                if (owner == null)
-                {
-                    ModelState.AddModelError("", "Owner with this ID Number does not exist in the system");
-                }
                 if (image.Length > 512)
                 {                   
                     FileInfo fileInfo = new FileInfo(image.FileName);

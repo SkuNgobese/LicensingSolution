@@ -4,14 +4,16 @@ using LicensingSolution.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace LicensingSolution.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190904210930_user")]
+    partial class user
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -103,7 +105,7 @@ namespace LicensingSolution.Data.Migrations
                     b.Property<string>("Manufacturer")
                         .IsRequired();
 
-                    b.Property<string>("OwnerId");
+                    b.Property<string>("OwnerIDNumber");
 
                     b.Property<int>("Passengers");
 
@@ -126,7 +128,7 @@ namespace LicensingSolution.Data.Migrations
 
                     b.HasIndex("AssociationId");
 
-                    b.HasIndex("OwnerId");
+                    b.HasIndex("OwnerIDNumber");
 
                     b.ToTable("OperatingLicences");
                 });
@@ -184,7 +186,7 @@ namespace LicensingSolution.Data.Migrations
 
                     b.Property<DateTime>("DateOfExpiry");
 
-                    b.Property<string>("OwnerId");
+                    b.Property<string>("OwnerIDNumber");
 
                     b.Property<string>("RegisteringAuthority")
                         .IsRequired();
@@ -203,7 +205,7 @@ namespace LicensingSolution.Data.Migrations
 
                     b.HasIndex("AssociationId");
 
-                    b.HasIndex("OwnerId");
+                    b.HasIndex("OwnerIDNumber");
 
                     b.ToTable("VehicleLicences");
                 });
@@ -420,7 +422,7 @@ namespace LicensingSolution.Data.Migrations
 
                     b.HasOne("LicensingSolution.Models.Owner", "Owner")
                         .WithMany("OperatingLicences")
-                        .HasForeignKey("OwnerId");
+                        .HasForeignKey("OwnerIDNumber");
                 });
 
             modelBuilder.Entity("LicensingSolution.Models.Owner", b =>
@@ -439,7 +441,7 @@ namespace LicensingSolution.Data.Migrations
 
                     b.HasOne("LicensingSolution.Models.Owner", "Owner")
                         .WithMany("VehicleLicences")
-                        .HasForeignKey("OwnerId");
+                        .HasForeignKey("OwnerIDNumber");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace LicensingSolution.Models
 {
-    public class User: IdentityUser
+    public class ApplicationUser : IdentityUser
     {
         [PersonalData]
         public string Title { get; set; }
