@@ -41,12 +41,12 @@ namespace LicensingSolution.Models.Services
             while (true)
             {
                 var now = DateTime.Now.TimeOfDay.ToString(@"hh\:mm");
-                if (now == "12:00")
+                if (now == "10:37")
                 {
-                    await SendEmail("vehicle licence", 30);
+                    await SendEmail("driving licence", 30);
                     await SendEmail("operating licence", 30);
                     await SendEmail("licence disc", 30);
-                    await SendEmail("vehicle licence", 7);
+                    await SendEmail("driving licence", 7);
                     await SendEmail("operating licence", 7);
                     await SendEmail("licence disc", 7);
                 }
@@ -66,7 +66,7 @@ namespace LicensingSolution.Models.Services
             {
                 if (licenceType.ToLower() == "driving licence")
                 {
-                    var drivers = await _context.Drivers.Where(x => x.DrivingLicence.LicenceExpiryDate.AddDays(-days) == DateTime.Today || x.DrivingLicence.PDPExpiryDate.AddDays(-days) == DateTime.Today).ToListAsync();
+                    var drivers = await _context.Drivers.Include(o => o.Owner).Where(x => x.DrivingLicence.LicenceExpiryDate.Date.AddDays(-days) == DateTime.Today || x.DrivingLicence.PDPExpiryDate.AddDays(-days) == DateTime.Today).ToListAsync();
                     foreach (var driver in drivers)
                     {
                         var owner = driver.Owner;
@@ -78,7 +78,7 @@ namespace LicensingSolution.Models.Services
                 }
                 if (licenceType.ToLower() == "operating licence")
                 {
-                    var operatingLicences = await _context.OperatingLicences.Where(y => y.ValidUntil.AddDays(-days) == DateTime.Today).ToListAsync();
+                    var operatingLicences = await _context.OperatingLicences.Include(o => o.Owner).Where(y => y.ValidUntil.AddDays(-days) == DateTime.Today).ToListAsync();
                     if (operatingLicences != null)
                     {
                         foreach (var operatingLicence in operatingLicences)
@@ -93,7 +93,7 @@ namespace LicensingSolution.Models.Services
                 }
                 if (licenceType.ToLower() == "licence disc")
                 {
-                    var vehicleLicences = await _context.VehicleLicences.Where(y => y.DateOfExpiry.AddDays(-days) == DateTime.Today).ToListAsync();
+                    var vehicleLicences = await _context.VehicleLicences.Include(o => o.Owner).Where(y => y.DateOfExpiry.AddDays(-days) == DateTime.Today).ToListAsync();
                     if (vehicleLicences != null)
                     {
 
