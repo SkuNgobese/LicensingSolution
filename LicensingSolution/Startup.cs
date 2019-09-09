@@ -14,9 +14,6 @@ using Microsoft.Extensions.FileProviders;
 using System.IO;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
-using LicensingSolution.Controllers;
-using System.Net.Mail;
-using System.Net;
 using Microsoft.Extensions.Hosting;
 using LicensingSolution.Models;
 using Microsoft.AspNetCore.Identity.UI.Services;
@@ -36,6 +33,10 @@ namespace LicensingSolution
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<IISServerOptions>(options =>
+            {
+                options.AutomaticAuthentication = false;
+            });
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
@@ -55,9 +56,6 @@ namespace LicensingSolution
                 .AddDefaultUI(UIFramework.Bootstrap4)
                 .AddDefaultTokenProviders();
 
-            // requires
-            // using Microsoft.AspNetCore.Identity.UI.Services;
-            // using WebPWrecover.Services;
             services.AddTransient<IEmailSender, EmailSender>();
             services.Configure<AuthMessageSenderOptions>(Configuration);
 
@@ -142,10 +140,10 @@ namespace LicensingSolution
             // dotnet user-secrets set DefaultPW <pw>
             // The admin user can do anything
 
-            var SuperuserID = await EnsureUser(serviceProvider, DefaultPW, "i.skngobese@live.co.za");
+            var SuperuserID = await EnsureUser(serviceProvider, DefaultPW, "i.skngobese@gmail.com");
             await EnsureRole(serviceProvider, SuperuserID, "Superuser");
 
-            var adminID = await EnsureUser(serviceProvider, DefaultPW, "admin@licencingsolution.co.za");
+            var adminID = await EnsureUser(serviceProvider, DefaultPW, "floyd.mfeka@gmail.com");
             await EnsureRole(serviceProvider, adminID, "Admin");
         }
 
@@ -156,8 +154,8 @@ namespace LicensingSolution
             var user = await userManager.FindByNameAsync(UserName);
             if (user == null)
             {
-                user = new ApplicationUser { UserName = UserName, Email = UserName };
-                await userManager.CreateAsync(user, DefaultPW);
+                user = new ApplicationUser { UserName = UserName, Email = UserName, EmailConfirmed = true, AssociationId = 1 };
+                var result = await userManager.CreateAsync(user, DefaultPW);
             }
 
             return user.Id;

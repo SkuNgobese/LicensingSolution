@@ -27,7 +27,7 @@ namespace LicensingSolution.Models.Services
             var client = new SendGridClient(apiKey);
             var msg = new SendGridMessage()
             {
-                From = new EmailAddress("info@licencesolution.co.za", "Licencing Solution"),
+                From = new EmailAddress(Options.Email, "Licencing Solution"),
                 Subject = subject,
                 PlainTextContent = message,
                 HtmlContent = message

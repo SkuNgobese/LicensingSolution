@@ -7,6 +7,7 @@ namespace LicensingSolution.Models.Services
 {
     public class AuthMessageSenderOptions
     {
+        public string Email { get; set; }
         public string SendGridUser { get; set; }
         public string SENDGRID_API_KEY { get; set; }
     }

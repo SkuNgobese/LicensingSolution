@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using LicensingSolution.Data;
@@ -16,7 +17,6 @@ using Microsoft.Extensions.Logging;
 
 namespace LicensingSolution.Areas.Identity.Pages.Account
 {
-    [AllowAnonymous]
     public class RegisterModel : PageModel
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
@@ -95,6 +95,12 @@ namespace LicensingSolution.Areas.Identity.Pages.Account
 
         public void OnGet(string returnUrl = null)
         {
+            if (!_context.Associations.Any())
+            {
+                var ass = new Association { Name = "Inanda Taxi Owners Association" };
+                _context.Add(ass);
+                _context.SaveChangesAsync();
+            }
             ReturnUrl = returnUrl;
         }
 
@@ -117,9 +123,9 @@ namespace LicensingSolution.Areas.Identity.Pages.Account
                     {
                         await _userManager.AddToRoleAsync(user, "AssociationClerk");
                     }
-                    if (Input.Role == "Superuser")
+                    if (Input.Role == "Admin")
                     {
-                        await _userManager.AddToRoleAsync(user, "Superuser");
+                        await _userManager.AddToRoleAsync(user, "Admin");
                     }
                     _logger.LogInformation("User added to role.");
 

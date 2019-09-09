@@ -41,7 +41,7 @@ namespace LicensingSolution.Models.Services
             while (true)
             {
                 var now = DateTime.Now.TimeOfDay.ToString(@"hh\:mm");
-                if (now == "10:37")
+                if (now == "09:00")
                 {
                     await SendEmail("driving licence", 30);
                     await SendEmail("operating licence", 30);

@@ -66,12 +66,6 @@ namespace LicensingSolution.Controllers
         // GET: Owners/Create
         public IActionResult Create()
         {
-            if (!_context.Associations.Any())
-            {
-                var ass = new Association { Name = "Inanda Taxi Owners Association" };
-                _context.Add(ass);
-                _context.SaveChangesAsync();
-            }
             PopulateAssociationsDropdownList();
             return View();
         }
