@@ -3,12 +3,6 @@
 @{
     ViewData["Title"] = "Index";
 }
-
-<h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <!DOCTYPE html>
 <html>
 <body class="sidebar-mini fixed">
@@ -34,7 +28,9 @@
                                 <th>
                                     @Html.DisplayNameFor(model => model.Owner)
                                 </th>
-                                <th></th>
+                                <th>
+                                    Options
+                                </th>
                             </tr>
                         </thead>
                         <tbody>

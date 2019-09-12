@@ -48,14 +48,14 @@ namespace LicensingSolution
                     Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddDefaultIdentity<ApplicationUser>(config =>
-                {
-                    config.SignIn.RequireConfirmedEmail = true;
-                })
-                .AddRoles<IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultUI(UIFramework.Bootstrap4)
-                .AddDefaultTokenProviders();
-
+            {
+                config.SignIn.RequireConfirmedEmail = true;
+            })
+            .AddRoles<IdentityRole>()
+            .AddEntityFrameworkStores<ApplicationDbContext>()
+            .AddDefaultUI(UIFramework.Bootstrap4)
+            .AddDefaultTokenProviders();
+            services.AddHealthChecks();
             services.AddTransient<IEmailSender, EmailSender>();
             services.Configure<AuthMessageSenderOptions>(Configuration);
 
@@ -114,13 +114,11 @@ namespace LicensingSolution
             }
             else
             {
-                app.UseDeveloperExceptionPage();
-                app.UseDatabaseErrorPage();
-                //app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("/Home/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-
+            app.UseHealthChecks("/healthcheck");
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();

@@ -112,7 +112,7 @@
                         <input asp-for="Input.ConfirmPassword" class="form-control border-left-0" id="exampleInputPassword" placeholder="Password">
                     </div>
                 </div>
-                <div class="mt-3">
+                <div class="mt-3 row">
                     <button class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" type="submit">Register</button>
                 </div>
             </form>
@@ -120,5 +120,6 @@
     </div>
 </div>
 @section Scripts {
+    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
     <partial name="_ValidationScriptsPartial" />
 }

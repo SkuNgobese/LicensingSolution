@@ -3,12 +3,6 @@
 @{
     ViewData["Title"] = "Index";    
 }
-
-<h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <!DOCTYPE html>
 <html>
 <body class="sidebar-mini fixed">
@@ -34,12 +28,14 @@
                                 <th>
                                     Drivers
                                 </th>
-                                <th></th>
+                                <th>
+                                    Options
+                                </th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach (var item in Model)
-                            {
+                             {
                                 var opLicences = item.OperatingLicences.Count();
                                 var vehLicences = item.VehicleLicences.Count();
                                 var drivers = item.Drivers.Count();
@@ -65,7 +61,7 @@
                                         <a asp-action="Delete" asp-route-id="@item.OwnerId">Delete</a>
                                     </td>
                                 </tr>
-                            }
+                             }
                         </tbody>
                     </table>
                 </div>

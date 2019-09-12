@@ -3,12 +3,6 @@
 @{
     ViewData["Title"] = "Index";
 }
-
-<h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <!DOCTYPE html>
 <html>
 <body class="sidebar-mini fixed">
@@ -25,18 +19,21 @@
                                 <th>
                                     @Html.DisplayNameFor(model => model.Owners)
                                 </th>
-                                <th></th>
+                                <th>
+                                    Options
+                                </th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach (var item in Model)
                             {
+                                var owners = item.Owners.Count();
                                 <tr>
                                     <td>
                                         @Html.DisplayFor(modelItem => item.Name)
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.Owners)
+                                        @owners.ToString()
                                     </td>
                                     <td>
                                         <a asp-action="Edit" asp-route-id="@item.AssociationId">Edit</a> |

@@ -22,7 +22,7 @@ namespace LicensingSolution.Controllers
         // GET: Associations
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Associations.ToListAsync());
+            return View(await _context.Associations.Include(o => o.Owners).ToListAsync());
         }
 
         // GET: Associations/Details/5
@@ -34,6 +34,7 @@ namespace LicensingSolution.Controllers
             }
 
             var association = await _context.Associations
+                .Include(o => o.Owners)
                 .FirstOrDefaultAsync(m => m.AssociationId == id);
             if (association == null)
             {
@@ -125,6 +126,7 @@ namespace LicensingSolution.Controllers
             }
 
             var association = await _context.Associations
+                .Include(o => o.Owners)
                 .FirstOrDefaultAsync(m => m.AssociationId == id);
             if (association == null)
             {
@@ -147,7 +149,7 @@ namespace LicensingSolution.Controllers
 
         private bool AssociationExists(int id)
         {
-            return _context.Associations.Any(e => e.AssociationId == id);
+            return _context.Associations.Include(o => o.Owners).Any(e => e.AssociationId == id);
         }
     }
 }
