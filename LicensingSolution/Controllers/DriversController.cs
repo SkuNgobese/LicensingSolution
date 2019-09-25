@@ -126,12 +126,14 @@ namespace LicensingSolution.Controllers
                 return NotFound();
             }
 
-            var driver = await _context.Drivers.FindAsync(id);
+            var driver = await _context.Drivers
+                .Include(l => l.DrivingLicence)
+                .Include(d => d.Owner)
+                .FirstOrDefaultAsync(m => m.DriverId == id);
             if (driver == null)
             {
                 return NotFound();
             }
-            ViewData["OwnerId"] = new SelectList(_context.Owners, "OwnerId", "OwnerId", driver.OwnerId);
             return View(driver);
         }
 
@@ -140,18 +142,19 @@ namespace LicensingSolution.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("DriverId,FirstName,MiddleName,LastName,ImgPath,OwnerId")] Driver driver)
+        public async Task<IActionResult> Edit(string id, Driver driver)
         {
             if (id != driver.DriverId)
             {
                 return NotFound();
             }
-
             if (ModelState.IsValid)
             {
                 try
                 {
                     _context.Update(driver);
+                    driver.DrivingLicence.Driver = driver;
+                    _context.Update(driver.DrivingLicence);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -167,7 +170,6 @@ namespace LicensingSolution.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["OwnerId"] = new SelectList(_context.Owners, "OwnerId", "OwnerId", driver.OwnerId);
             return View(driver);
         }
 
@@ -196,7 +198,11 @@ namespace LicensingSolution.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            var driver = await _context.Drivers.FindAsync(id);
+            var driver = await _context.Drivers
+                .Include(l => l.DrivingLicence)
+                .Include(d => d.Owner)
+                .FirstOrDefaultAsync(m => m.DriverId == id);
+            _context.DrivingLicences.Remove(driver.DrivingLicence);
             _context.Drivers.Remove(driver);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));

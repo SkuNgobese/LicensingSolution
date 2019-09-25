@@ -36,6 +36,8 @@
                         <tbody>
                             @foreach (var item in Model)
                             {
+                                var led = item.DrivingLicence.LicenceExpiryDate.ToString("dd-MMM-yyyy");
+                                var pdped = item.DrivingLicence.PDPExpiryDate.ToString("dd-MMM-yyyy");
                                 <tr>
                                     <td>
                                         @Html.DisplayFor(modelItem => item.FullName)
@@ -44,10 +46,10 @@
                                         @Html.DisplayFor(modelItem => item.DriverId)
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.DrivingLicence.LicenceExpiryDate)
+                                        @led
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.DrivingLicence.PDPExpiryDate)
+                                        @pdped
                                     </td>
                                     <td>
                                         @Html.DisplayFor(modelItem => item.Owner.FullName)

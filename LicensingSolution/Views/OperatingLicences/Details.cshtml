@@ -2,87 +2,129 @@
 
 @{
     ViewData["Title"] = "Details";
+    var vf = Model.ValidFrom.ToString("dd-MMM-yyyy");
+    var vu = Model.ValidUntil.ToString("dd-MMM-yyyy");
 }
 
-<h1>Details</h1>
-
-<div>
-    <h4>OperatingLicence</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ApplicationNumber)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ApplicationNumber)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.AssociationName)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.AssociationName)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.VehRegistrationNumber)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.VehRegistrationNumber)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.EngineNumber)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.EngineNumber)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.VehMass)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.VehMass)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Manufacturer)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Manufacturer)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.VehDescription)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.VehDescription)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Passengers)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Passengers)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.YearOfReg)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.YearOfReg)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ValidFrom)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ValidFrom)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ValidUntil)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ValidUntil)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Owner)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Owner.OwnerId)
-        </dd>
-    </dl>
+<div class="card">
+    <div class="card-body">
+        <h2 class="card-title mdi mdi-account-card-details text-lg-right"> LICENCE HOLDER PARTICULARS</h2>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.AssociationName)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.AssociationName)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.ApplicationNumber)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.ApplicationNumber)
+            </dd>
+            <dt class="col-sm-2">
+                Op. Licence Number
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.OperatingLicenceNumber)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Owner.FullName)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Owner.FullName)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Owner.OwnerId)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Owner.OwnerId)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Owner.Street)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Owner.Street)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Owner.Suburb)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Owner.Suburb)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Owner.City)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Owner.City)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Owner.PostalCode)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Owner.PostalCode)
+            </dd>
+        </dl>
+        <h2 class="card-title mdi mdi-car text-lg-right"> VEHICLE PARTICULARS</h2>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-2">
+                Vehicle Reg. Number
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.VehRegistrationNumber)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.EngineNumber)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.EngineNumber)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Manufacturer)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Manufacturer)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.VehDescription)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.VehDescription)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.VehMass)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.VehMass)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Passengers)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Passengers)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.YearOfReg)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.YearOfReg)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.ValidFrom)
+            </dt>
+            <dd class="col-sm-10">
+                @vf
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.ValidUntil)
+            </dt>
+            <dd class="col-sm-10">
+                @vu
+            </dd>
+        </dl>
+    </div>
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model.OperatingLicenceNumber">Edit</a> |

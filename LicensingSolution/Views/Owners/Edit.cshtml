@@ -4,81 +4,108 @@
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
-
-<h4>Owner</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="OwnerId" />
-            <div class="form-group">
-                <label asp-for="FirstName" class="control-label"></label>
-                <input asp-for="FirstName" class="form-control" />
-                <span asp-validation-for="FirstName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="MiddleName" class="control-label"></label>
-                <input asp-for="MiddleName" class="form-control" />
-                <span asp-validation-for="MiddleName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="LastName" class="control-label"></label>
-                <input asp-for="LastName" class="form-control" />
-                <span asp-validation-for="LastName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="EmailAddress" class="control-label"></label>
-                <input asp-for="EmailAddress" class="form-control" />
-                <span asp-validation-for="EmailAddress" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="PrimaryContactNumber" class="control-label"></label>
-                <input asp-for="PrimaryContactNumber" class="form-control" />
-                <span asp-validation-for="PrimaryContactNumber" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="SecondaryContactNumber" class="control-label"></label>
-                <input asp-for="SecondaryContactNumber" class="form-control" />
-                <span asp-validation-for="SecondaryContactNumber" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Street" class="control-label"></label>
-                <input asp-for="Street" class="form-control" />
-                <span asp-validation-for="Street" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Suburb" class="control-label"></label>
-                <input asp-for="Suburb" class="form-control" />
-                <span asp-validation-for="Suburb" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="City" class="control-label"></label>
-                <input asp-for="City" class="form-control" />
-                <span asp-validation-for="City" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="PostalCode" class="control-label"></label>
-                <input asp-for="PostalCode" class="form-control" />
-                <span asp-validation-for="PostalCode" class="text-danger"></span>
-            </div>
-            <div class="form-group row">
-                <label asp-for="AssociationId" class="control-label"></label>
-                @Html.DropDownListFor(model => model.AssociationId, ViewBag.AssList as List<SelectListItem>, "--Choose Association--", new { @class = "form-control" })
-                <span asp-validation-for="AssociationId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+<div class="col-12 grid-margin">
+    <div class="card">
+        <div class="card-body">
+            <h2 class="card-title mdi mdi-rename-box text-lg-right">Owner</h2>
+            <form asp-action="Edit">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="OwnerId" />
+                <div class="row mb-20">
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <label asp-for="FirstName" class="control-label"></label>
+                            <input asp-for="FirstName" class="form-control" />
+                            <span asp-validation-for="FirstName" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <label asp-for="MiddleName" class="control-label"></label>
+                            <input asp-for="MiddleName" class="form-control" />
+                            <span asp-validation-for="MiddleName" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-20">
+                    <div class="col-md-12">
+                        <div class="form-group row">
+                            <label asp-for="LastName" class="control-label"></label>
+                            <input asp-for="LastName" class="form-control" />
+                            <span asp-validation-for="LastName" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-20">
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <label asp-for="PrimaryContactNumber" class="control-label"></label>
+                            <input asp-for="PrimaryContactNumber" class="form-control" />
+                            <span asp-validation-for="PrimaryContactNumber" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <label asp-for="SecondaryContactNumber" class="control-label"></label>
+                            <input asp-for="SecondaryContactNumber" class="form-control" />
+                            <span asp-validation-for="SecondaryContactNumber" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label asp-for="EmailAddress" class="control-label"></label>
+                    <input asp-for="EmailAddress" class="form-control" />
+                    <span asp-validation-for="EmailAddress" class="text-danger"></span>
+                </div>
+                <div class="row mb-20">
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <label asp-for="Street" class="control-label"></label>
+                            <input asp-for="Street" class="form-control" />
+                            <span asp-validation-for="Street" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <label asp-for="Suburb" class="control-label"></label>
+                            <input asp-for="Suburb" class="form-control" />
+                            <span asp-validation-for="Suburb" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-20">
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <label asp-for="City" class="control-label"></label>
+                            <input asp-for="City" class="form-control" />
+                            <span asp-validation-for="City" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <label asp-for="PostalCode" class="control-label"></label>
+                            <input asp-for="PostalCode" class="form-control" />
+                            <span asp-validation-for="PostalCode" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label asp-for="AssociationId" class="control-label"></label>
+                    @Html.DropDownListFor(model => model.AssociationId, TempData["AssList"]  as List<SelectListItem>, "--Choose Association--", new { @class = "form-control" })
+                    <span asp-validation-for="AssociationId" class="text-danger"></span>
+                </div>
+                <div class="form-group row">
+                    <input type="submit" value="Save" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
     </div>
 </div>
-
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {
+    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

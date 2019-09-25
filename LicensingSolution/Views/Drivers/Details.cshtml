@@ -2,45 +2,54 @@
 
 @{
     ViewData["Title"] = "Details";
+    var led = Model.DrivingLicence.LicenceExpiryDate.ToString("dd-MMM-yyyy");
+    var pdped = Model.DrivingLicence.PDPExpiryDate.ToString("dd-MMM-yyyy");
 }
 
-<h1>Details</h1>
-
-<div>
-    <h4>Driver</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.FirstName)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.FirstName)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.MiddleName)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.MiddleName)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.LastName)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.LastName)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ImgPath)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ImgPath)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Owner)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Owner.OwnerId)
-        </dd>
-    </dl>
+<div class="card">
+    <div class="card-body">
+        <h2 class="card-title mdi mdi-account-card-details text-lg-right"> Driver</h2>
+        <img class="img-lg" src="@Model.ImgPath" asp-append-version="true" alt="DriverPhoto" />
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.FullName)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.FullName)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.DrivingLicence.LicenceNumber)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.DrivingLicence.LicenceNumber)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.DriverId)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.DriverId)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.DrivingLicence.LicenceExpiryDate)
+            </dt>
+            <dd class="col-sm-10">
+                @led
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.DrivingLicence.PDPExpiryDate)
+            </dt>
+            <dd class="col-sm-10">
+                @pdped
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Owner)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Owner.FullName)
+            </dd>
+        </dl>
+    </div>
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model.DriverId">Edit</a> |

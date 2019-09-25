@@ -1,7 +1,7 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
-<table width="906" border="0" align="center">
+<table width="906" border="0" align="center" id="table_id">
     <tr align="center">
         <td width="172"><a href="~/Owners/Create"><i class="mdi mdi-human-male" style="width:54px!important;height:54px!important;"></i><br />Add Owner</a></td>
         <td width="172"><a href="~/Drivers/Create"><i class="mdi mdi-credit-card" width="139" height="136"></i><br />Add Driver</a></td>
@@ -33,3 +33,10 @@
 <script src="~/js/dashboard.js"></script>
 <script src="~/vendors/chart.js/Chart.min.js"></script>
 <script src="~/js/chart.js"></script>
+<script type="text/javascript">
+    $('#table_id').DataTable({
+        "scrollY": 250,
+        "scrollX": true
+    });
+    responsive: true
+</script>

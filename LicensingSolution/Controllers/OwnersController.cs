@@ -55,6 +55,7 @@ namespace LicensingSolution.Controllers
             }
 
             var owner = await _context.Owners
+                .Include(a => a.Association)
                 .FirstOrDefaultAsync(m => m.OwnerId == id);
             if (owner == null)
             {
@@ -77,6 +78,10 @@ namespace LicensingSolution.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Owner owner)
         {
+            if (OwnerExists(owner.OwnerId))
+            {
+                ModelState.AddModelError("OwnerId", $"Owner's ID Number: {owner.OwnerId} already exist");
+            }
             if (ModelState.IsValid)
             {
                 _context.Add(owner);
@@ -95,7 +100,9 @@ namespace LicensingSolution.Controllers
                 return NotFound();
             }
 
-            var owner = await _context.Owners.Include(c=>c.Association).FirstOrDefaultAsync(m=>m.OwnerId == id);
+            var owner = await _context.Owners
+                .Include(a => a.Association)
+                .FirstOrDefaultAsync(m => m.OwnerId == id);
             if (owner == null)
             {
                 return NotFound();
@@ -149,6 +156,7 @@ namespace LicensingSolution.Controllers
             }
 
             var owner = await _context.Owners
+                .Include(a => a.Association)
                 .FirstOrDefaultAsync(m => m.OwnerId == id);
             if (owner == null)
             {
@@ -163,7 +171,25 @@ namespace LicensingSolution.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            var owner = await _context.Owners.FindAsync(id);
+            var owner = await _context.Owners
+                .Include(a => a.Association)
+                .Include(d => d.Drivers)
+                .Include(o => o.OperatingLicences)
+                .Include(v => v.VehicleLicences)
+                .FirstOrDefaultAsync(m => m.OwnerId == id);
+            foreach(var driver in owner.Drivers)
+            {
+                _context.DrivingLicences.Remove(driver.DrivingLicence);
+                _context.Drivers.Remove(driver);
+            }
+            foreach (var operatingLicence in owner.OperatingLicences)
+            {
+                _context.OperatingLicences.Remove(operatingLicence);
+            }
+            foreach (var vehicleLicence in owner.VehicleLicences)
+            {
+                _context.VehicleLicences.Remove(vehicleLicence);
+            }
             _context.Owners.Remove(owner);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));

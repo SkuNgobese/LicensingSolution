@@ -20984,8 +20984,8 @@ dl li {
 }
 
 .auth.lock-full-bg {
-  background: url("/images/auth/lockscreen-bg.jpg");
-  background-size: cover;
+    background: url("/images/auth/login-bg.jpg");
+    background-size: cover;
 }
 
 .auth .lock-profile-img {

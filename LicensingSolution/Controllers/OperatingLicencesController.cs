@@ -89,7 +89,9 @@ namespace LicensingSolution.Controllers
                 return NotFound();
             }
 
-            var operatingLicence = await _context.OperatingLicences.FindAsync(id);
+            var operatingLicence = await _context.OperatingLicences
+                .Include(o => o.Owner)
+                .FirstOrDefaultAsync(m => m.OperatingLicenceNumber == id);
             if (operatingLicence == null)
             {
                 return NotFound();
@@ -102,7 +104,7 @@ namespace LicensingSolution.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("OperatingLicenceNumber,ApplicationNumber,AssociationName,VehRegistrationNumber,EngineNumber,VehMass,Manufacturer,VehDescription,Passengers,YearOfReg,ValidFrom,ValidUntil,IDNumber")] OperatingLicence operatingLicence)
+        public async Task<IActionResult> Edit(string id, [Bind("OperatingLicenceNumber,ApplicationNumber,AssociationName,VehRegistrationNumber,EngineNumber,VehMass,Manufacturer,VehDescription,Passengers,YearOfReg,ValidFrom,ValidUntil,OwnerId")] OperatingLicence operatingLicence)
         {
             if (id != operatingLicence.OperatingLicenceNumber)
             {

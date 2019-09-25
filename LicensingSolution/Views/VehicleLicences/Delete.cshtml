@@ -2,56 +2,107 @@
 
 @{
     ViewData["Title"] = "Delete";
+    var doe = Model.DateOfExpiry.ToString("dd-MMM-yyyy");
 }
 
-<h1>Delete</h1>
+<div class="card">
+    <div class="card-body">
+        <h3>Are you sure you want to delete this?</h3>
+        <div>
+            <h4>VehicleLicence</h4>
+            <hr />
+            <dl class="row">
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Owner.FullName)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Owner.FullName)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Owner.EmailAddress)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Owner.EmailAddress)
+                </dd>
+                <dt class="col-sm-2">
+                    Primary Number
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Owner.PrimaryContactNumber)
+                </dd>
+                <dt class="col-sm-2">
+                    Secondary Number
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Owner.SecondaryContactNumber)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Owner.Street)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Owner.Street)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Owner.Suburb)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Owner.Suburb)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Owner.City)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Owner.City)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Owner.PostalCode)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Owner.PostalCode)
+                </dd>
+                <dt class="col-sm-2">
+                    Vehicle Reg. Number
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.VehRegisterNumber)
+                </dd>
+                <dt class="col-sm-2">
+                    Licence Number
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.VehLicenceNumber)
+                </dd>
+                <dt class="col-sm-2">
+                    VIN
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.VehIdentificationNumber)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.VehMake)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.VehMake)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.RegisteringAuthority)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.RegisteringAuthority)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.DateOfExpiry)
+                </dt>
+                <dd class="col-sm-10">
+                    @doe
+                </dd>
+            </dl>
 
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>VehicleLicence</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.VehLicenceNumber)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.VehLicenceNumber)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.VehIdentificationNumber)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.VehIdentificationNumber)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.VehMake)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.VehMake)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.RegisteringAuthority)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.RegisteringAuthority)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DateOfExpiry)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DateOfExpiry)
-        </dd>
-        @*<dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Driver)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Driver.IDNumber)
-        </dd class*@>
-    </dl>
-    
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="VehRegisterNumber" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
-    </form>
+            <form asp-action="Delete">
+                <input type="hidden" asp-for="VehRegisterNumber" />
+                <input type="submit" value="Delete" class="btn btn-danger" /> |
+                <a asp-action="Index">Back to List</a>
+            </form>
+        </div>
+    </div>
 </div>

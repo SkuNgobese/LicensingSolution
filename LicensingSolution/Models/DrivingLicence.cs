@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace LicensingSolution.Models
 {
-    public class DrivingLicence
+    public class DrivingLicence : IValidatableObject
     {
 
         public DrivingLicence() { }
@@ -33,5 +33,21 @@ namespace LicensingSolution.Models
         public string DriverId { get; set; }
 
         public virtual Driver Driver { get; set; }
+
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            if (LicenceExpiryDate.Date <= DateTime.Today)
+            {
+                yield return new ValidationResult(
+                    $"You can not enter today's date or past date",
+                    new[] { "LicenceExpiryDate" });
+            }
+            if (PDPExpiryDate.Date <= DateTime.Today)
+            {
+                yield return new ValidationResult(
+                    $"You can not enter today's date or past date",
+                    new[] { "PDPExpiryDate" });
+            }
+        }
     }
 }
