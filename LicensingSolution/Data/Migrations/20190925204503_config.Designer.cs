@@ -4,14 +4,16 @@ using LicensingSolution.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace LicensingSolution.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190925204503_config")]
+    partial class config
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -41,8 +43,7 @@ namespace LicensingSolution.Data.Migrations
 
                     b.Property<string>("Name");
 
-                    b.Property<string>("Value")
-                        .IsRequired();
+                    b.Property<string>("Value");
 
                     b.HasKey("Id");
 
@@ -99,9 +100,9 @@ namespace LicensingSolution.Data.Migrations
 
             modelBuilder.Entity("LicensingSolution.Models.OperatingLicence", b =>
                 {
-                    b.Property<string>("VehRegistrationNumber")
+                    b.Property<string>("OperatingLicenceNumber")
                         .ValueGeneratedOnAdd()
-                        .HasMaxLength(10);
+                        .HasMaxLength(20);
 
                     b.Property<string>("ApplicationNumber")
                         .IsRequired()
@@ -117,10 +118,6 @@ namespace LicensingSolution.Data.Migrations
                     b.Property<string>("Manufacturer")
                         .IsRequired();
 
-                    b.Property<string>("OperatingLicenceNumber")
-                        .IsRequired()
-                        .HasMaxLength(20);
-
                     b.Property<string>("OwnerId");
 
                     b.Property<int>("Passengers");
@@ -134,9 +131,13 @@ namespace LicensingSolution.Data.Migrations
 
                     b.Property<int>("VehMass");
 
+                    b.Property<string>("VehRegistrationNumber")
+                        .IsRequired()
+                        .HasMaxLength(10);
+
                     b.Property<int>("YearOfReg");
 
-                    b.HasKey("VehRegistrationNumber");
+                    b.HasKey("OperatingLicenceNumber");
 
                     b.HasIndex("OwnerId");
 

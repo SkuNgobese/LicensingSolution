@@ -1,22 +1,31 @@
-﻿@{
+﻿@using System.Linq;
+@using LicensingSolution.Models.ViewModels
+@model List<ReportViewModel>
+@{
+    var XLabels = Newtonsoft.Json.JsonConvert.SerializeObject(Model.Select(x => x.DimensionOne).ToList());
+    var YValues = Newtonsoft.Json.JsonConvert.SerializeObject(Model.Select(x => x.Quantity).ToList());
     ViewData["Title"] = "Home Page";
 }
-<table width="906" border="0" align="center" id="table_id">
-    <tr align="center">
-        <td width="172"><a href="~/Owners/Create"><i class="mdi mdi-human-male" style="width:54px!important;height:54px!important;"></i><br />Add Owner</a></td>
-        <td width="172"><a href="~/Drivers/Create"><i class="mdi mdi-credit-card" width="139" height="136"></i><br />Add Driver</a></td>
-        <td width="172"><a href="~/OperatingLicences/Create"><i class="mdi mdi-clipboard-text menu-icon" width="139" height="136"></i><br />Add Operating Licence</a></td>
-        <td width="182"><a href="~/VehicleLicences/Create"><i class="mdi mdi-sticker menu-icon" width="139" height="136"></i><br />Add Licence Disc</a></td>
-        <td width="181"><a href="~/Associations/Create"><i class="mdi mdi-car menu-icon" width="139" height="136"></i><br />Add Association</a></td>
-    </tr>
+<table style="width: 100%" border="0" align="center" id="table_id">
+    <tbody>
+        <tr align="center">
+            <td width="172"><a href="~/Owners/Create"><i class="mdi mdi-human-male" style="width:54px!important;height:54px!important;"></i><br />Add Owner</a></td>
+            <td width="172"><a href="~/Drivers/Create"><i class="mdi mdi-credit-card" width="139" height="136"></i><br />Add Driver</a></td>
+            <td width="172"><a href="~/OperatingLicences/Create"><i class="mdi mdi-clipboard-text menu-icon" width="139" height="136"></i><br />Add Operating Licence</a></td>
+            <td width="182"><a href="~/VehicleLicences/Create"><i class="mdi mdi-sticker menu-icon" width="139" height="136"></i><br />Add Licence Disc</a></td>
+            <td width="181"><a href="~/Associations/Create"><i class="mdi mdi-car menu-icon" width="139" height="136"></i><br />Add Association</a></td>
+        </tr>
+    </tbody>
 </table>
 <hr />
 <div class="row">
     <div class="col-lg-6 grid-margin grid-margin-lg-0 stretch-card">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">Pie chart</h4>
-                <canvas id="pieChart"></canvas>
+                <h4 class="card-title">Licences expiring in -3 months</h4>
+                <div class="chart-container">
+                    <canvas id="chart" style="width:100%; height:500px"></canvas>
+                </div>
             </div>
         </div>
     </div>
@@ -29,14 +38,86 @@
         </div>
     </div>
 </div>
+            
 <!-- Custom js for this page-->
 <script src="~/js/dashboard.js"></script>
-<script src="~/vendors/chart.js/Chart.min.js"></script>
-<script src="~/js/chart.js"></script>
-<script type="text/javascript">
-    $('#table_id').DataTable({
-        "scrollY": 250,
-        "scrollX": true
-    });
-    responsive: true
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+<script type="text/javascript">  
+    $(function ()
+    {  
+        var chartName = "chart";  
+        var ctx = document.getElementById(chartName).getContext('2d');  
+        var data =
+        {  
+            labels: @Html.Raw(XLabels),  
+            datasets: [{  
+                label: "Licences Chart",  
+                backgroundColor: [  
+                    'rgba(255, 99, 132, 0.2)',  
+                    'rgba(54, 162, 235, 0.2)',  
+                    'rgba(255, 206, 86, 0.2)',  
+                    'rgba(75, 192, 192, 0.2)',  
+                    'rgba(153, 102, 255, 0.2)',  
+                    'rgba(255, 159, 64, 0.2)',  
+                    'rgba(255, 0, 0)',  
+                    'rgba(0, 255, 0)',  
+                    'rgba(0, 0, 255)',  
+                    'rgba(192, 192, 192)',  
+                    'rgba(255, 255, 0)',  
+                    'rgba(255, 0, 255)'  
+                ],  
+                borderColor: [  
+                    'rgba(255,99,132,1)',  
+                    'rgba(54, 162, 235, 1)',  
+                    'rgba(255, 206, 86, 1)',  
+                    'rgba(75, 192, 192, 1)',  
+                    'rgba(153, 102, 255, 1)',  
+                    'rgba(255, 159, 64, 1)',  
+                    'rgba(255, 0, 0)',  
+                    'rgba(0, 255, 0)',  
+                    'rgba(0, 0, 255)',  
+                    'rgba(192, 192, 192)',  
+                    'rgba(255, 255, 0)',  
+                    'rgba(255, 0, 255)'  
+                ],  
+                borderWidth: 1,  
+                data: @Html.Raw(YValues)  
+            }]  
+        };  
+  
+        var options =
+        {  
+            maintainAspectRatio: false,  
+            scales: {  
+                yAxes: [{  
+                    ticks: {  
+                        min: 0,  
+                        beginAtZero: true  
+                    },  
+                    gridLines: {  
+                        display: true,  
+                        color: "rgba(255,99,164,0.2)"  
+                    }  
+                }],  
+                xAxes: [{  
+                    ticks: {  
+                        min: 0,  
+                        beginAtZero: true  
+                    },  
+                    gridLines: {  
+                        display: false  
+                    }  
+                }]  
+            }  
+        };  
+  
+        var myChart = new  Chart(ctx, {  
+            options: options,  
+            data: data,  
+            type:'pie'  
+  
+        });  
+    });  
 </script>

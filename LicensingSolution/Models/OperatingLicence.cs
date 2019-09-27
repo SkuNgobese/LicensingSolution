@@ -16,7 +16,12 @@ namespace LicensingSolution.Models
 
         [Key]
         [Required(ErrorMessage = "Please enter the {0}")]
-        [StringLength(20, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 10)]
+        [Display(Name = "Vehicle Registration Number")]
+        [MaxLength(10, ErrorMessage = "{0} can not exceed {1} characters")]
+        public string VehRegistrationNumber { get; set; }
+
+        [Required(ErrorMessage = "Please enter the {0}")]
+        [StringLength(20, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 5)]
         [Display(Name = "Operating Licence Number")]
         public string OperatingLicenceNumber { get; set; }
 
@@ -28,12 +33,7 @@ namespace LicensingSolution.Models
         [Required(ErrorMessage = "Please enter the {0}")]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 5)]
         [Display(Name = "Association Name")]
-        public string AssociationName { get; set; }              
-
-        [Required(ErrorMessage = "Please enter the {0}")]
-        [Display(Name = "Vehicle Registration Number")]
-        [MaxLength(10, ErrorMessage ="{0} can not exceed {1} characters")]
-        public string VehRegistrationNumber { get; set; }
+        public string AssociationName { get; set; }                     
 
         [Required(ErrorMessage = "Please enter the {0}")]
         [Display(Name = "Engine Number")]

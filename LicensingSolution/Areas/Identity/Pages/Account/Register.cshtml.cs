@@ -13,10 +13,12 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace LicensingSolution.Areas.Identity.Pages.Account
 {
+    [Authorize(Roles = "Admin,Superuser")]
     public class RegisterModel : PageModel
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
@@ -91,16 +93,24 @@ namespace LicensingSolution.Areas.Identity.Pages.Account
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
-        }       
+        }
+
+        public void PopulateAssociationsDropdownList()
+        {
+            var AssList = new List<SelectListItem>();
+            var associationsQuery = (from a in _context.Associations
+                                     orderby a.Name
+                                     select a).AsNoTracking();
+            foreach (var m in associationsQuery)
+            {
+                AssList.Add(new SelectListItem { Value = (m.AssociationId.ToString()), Text = m.Name });
+            }
+            TempData["AssList"] = AssList;
+        }
 
         public void OnGet(string returnUrl = null)
         {
-            if (!_context.Associations.Any())
-            {
-                var ass = new Association { Name = "Inanda Taxi Owners Association" };
-                _context.Add(ass);
-                _context.SaveChangesAsync();
-            }
+            PopulateAssociationsDropdownList();
             ReturnUrl = returnUrl;
         }
 
@@ -149,6 +159,7 @@ namespace LicensingSolution.Areas.Identity.Pages.Account
             }
 
             // If we got this far, something failed, redisplay form
+            PopulateAssociationsDropdownList();
             return Page();
         }
     }

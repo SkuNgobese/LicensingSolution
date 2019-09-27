@@ -83,7 +83,7 @@ namespace LicensingSolution
             services.ConfigureApplicationCookie(options =>
             {
                 options.Cookie.HttpOnly = true;
-                options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
                 
                 options.LoginPath = "/Identity/Account/Login";
                 options.AccessDeniedPath = "/Identity/Account/AccessDenied";
@@ -134,17 +134,35 @@ namespace LicensingSolution
         }
         public static async Task Initialize(IServiceProvider serviceProvider, string DefaultPW)
         {
+            //Load configs
+            await EnsureConfigs(serviceProvider);
+
             // Password is set with the following:
             // dotnet user-secrets set DefaultPW <pw>
             // The admin user can do anything
-
             var SuperuserID = await EnsureUser(serviceProvider, DefaultPW, "i.skngobese@gmail.com");
             await EnsureRole(serviceProvider, SuperuserID, "Superuser");
 
             var adminID = await EnsureUser(serviceProvider, DefaultPW, "floyd.mfeka@gmail.com");
             await EnsureRole(serviceProvider, adminID, "Admin");
         }
+        private static async Task<int> EnsureConfigs(IServiceProvider serviceProvider)
+        {
+            var result = 0;
+            var dbContext = serviceProvider.GetService<ApplicationDbContext>();
+            if(!await dbContext.Config.AnyAsync())
+            {
+                var config = new Config()
+                {
+                    Name = "ReminderTime",
+                    Value = "09:00"
+                };
+                dbContext.Add(config);
+                result = await dbContext.SaveChangesAsync();
+            }
 
+            return result;
+        }
         private static async Task<string> EnsureUser(IServiceProvider serviceProvider, string DefaultPW, string UserName)
         {
             var userManager = serviceProvider.GetService<UserManager<ApplicationUser>>();

@@ -11,7 +11,6 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace LicensingSolution.Controllers
 {
-    [Authorize]
     public class VehicleLicencesController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -132,6 +131,7 @@ namespace LicensingSolution.Controllers
         }
 
         // GET: VehicleLicences/Delete/5
+        [Authorize(Roles = "Admin,Superuser")]
         public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
@@ -151,6 +151,7 @@ namespace LicensingSolution.Controllers
         }
 
         // POST: VehicleLicences/Delete/5
+        [Authorize(Roles = "Admin,Superuser")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)

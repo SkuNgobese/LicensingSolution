@@ -12,6 +12,7 @@ using Microsoft.Extensions.Logging;
 
 namespace LicensingSolution.Areas.Identity.Pages.Account.Manage
 {
+    [Authorize(Roles = "Admin,Superuser")]
     public class UsersListModel : PageModel
     {
         private readonly UserManager<ApplicationUser> _userManager;
@@ -22,9 +23,10 @@ namespace LicensingSolution.Areas.Identity.Pages.Account.Manage
             _logger = logger;
         }
         public IList<ApplicationUser> Users = new List<ApplicationUser>();
-        public void OnGet()
+        public IActionResult OnGet()
         {
             Users = _userManager.Users.ToList();
+            return Page();
         }
 
         public async Task<IActionResult> Delete(string id)
@@ -35,10 +37,10 @@ namespace LicensingSolution.Areas.Identity.Pages.Account.Manage
             var userId = await _userManager.GetUserIdAsync(user);
             if (!result.Succeeded)
             {
-                throw new InvalidOperationException($"Unexpected error occurred deleteing user with ID '{userId}'.");
+                throw new InvalidOperationException($"Unexpected error occurred deleteing user with ID '{user.Id}'.");
             }
 
-            _logger.LogInformation("User with ID '{UserId}' deleted.", userId);
+            _logger.LogInformation("User with ID '{0}' deleted.", user.Id);
 
             return Page();
         }

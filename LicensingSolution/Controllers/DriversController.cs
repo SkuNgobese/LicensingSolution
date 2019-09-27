@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Http;
 using System.IO;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LicensingSolution.Controllers
 {
@@ -174,6 +175,7 @@ namespace LicensingSolution.Controllers
         }
 
         // GET: Drivers/Delete/5
+        [Authorize(Roles = "Admin,Superuser")]
         public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
@@ -194,6 +196,7 @@ namespace LicensingSolution.Controllers
         }
 
         // POST: Drivers/Delete/5
+        [Authorize(Roles = "Admin,Superuser")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)

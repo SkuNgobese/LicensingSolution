@@ -11,7 +11,6 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace LicensingSolution.Controllers
 {
-    [Authorize]
     public class OperatingLicencesController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -38,7 +37,7 @@ namespace LicensingSolution.Controllers
 
             var operatingLicence = await _context.OperatingLicences
                 .Include(o => o.Owner)
-                .FirstOrDefaultAsync(m => m.OperatingLicenceNumber == id);
+                .FirstOrDefaultAsync(m => m.VehRegistrationNumber == id);
             if (operatingLicence == null)
             {
                 return NotFound();
@@ -91,7 +90,7 @@ namespace LicensingSolution.Controllers
 
             var operatingLicence = await _context.OperatingLicences
                 .Include(o => o.Owner)
-                .FirstOrDefaultAsync(m => m.OperatingLicenceNumber == id);
+                .FirstOrDefaultAsync(m => m.VehRegistrationNumber == id);
             if (operatingLicence == null)
             {
                 return NotFound();
@@ -106,7 +105,7 @@ namespace LicensingSolution.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(string id, [Bind("OperatingLicenceNumber,ApplicationNumber,AssociationName,VehRegistrationNumber,EngineNumber,VehMass,Manufacturer,VehDescription,Passengers,YearOfReg,ValidFrom,ValidUntil,OwnerId")] OperatingLicence operatingLicence)
         {
-            if (id != operatingLicence.OperatingLicenceNumber)
+            if (id != operatingLicence.VehRegistrationNumber)
             {
                 return NotFound();
             }
@@ -135,6 +134,7 @@ namespace LicensingSolution.Controllers
         }
 
         // GET: OperatingLicences/Delete/5
+        [Authorize(Roles = "Admin,Superuser")]
         public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
@@ -144,7 +144,7 @@ namespace LicensingSolution.Controllers
 
             var operatingLicence = await _context.OperatingLicences
                 .Include(o => o.Owner)
-                .FirstOrDefaultAsync(m => m.OperatingLicenceNumber == id);
+                .FirstOrDefaultAsync(m => m.VehRegistrationNumber == id);
             if (operatingLicence == null)
             {
                 return NotFound();
@@ -154,6 +154,7 @@ namespace LicensingSolution.Controllers
         }
 
         // POST: OperatingLicences/Delete/5
+        [Authorize(Roles = "Admin,Superuser")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)

@@ -19,5 +19,6 @@ namespace LicensingSolution.Data
         public DbSet<LicensingSolution.Models.OperatingLicence> OperatingLicences { get; set; }
         public DbSet<LicensingSolution.Models.VehicleLicence> VehicleLicences { get; set; }
         public DbSet<LicensingSolution.Models.Association> Associations { get; set; }
+        public DbSet<LicensingSolution.Models.Config> Config { get; set; }
     }
 }

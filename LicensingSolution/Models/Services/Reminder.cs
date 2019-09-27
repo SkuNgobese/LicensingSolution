@@ -1,5 +1,6 @@
 ﻿using LicensingSolution.Data;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
@@ -17,6 +18,8 @@ namespace LicensingSolution.Models.Services
         private readonly IConfiguration _configuration;
         private readonly IEmailSender _emailSender;
         private readonly ILogger _logger;
+        [TempData]
+        public string ReminderTime { get; set; }
         public Reminder(IConfiguration configuration, IEmailSender emailSender, ILogger<Reminder> logger)
         {
             _configuration = configuration;
@@ -38,10 +41,18 @@ namespace LicensingSolution.Models.Services
 
         private async Task TaskRoutineAsync()
         {
+            var optionBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
+            optionBuilder.UseSqlServer(_configuration.GetConnectionString("DefaultConnection"));
+            
             while (true)
             {
+                using (var _context = new ApplicationDbContext(optionBuilder.Options))
+                {
+                    var config = _context.Config.FirstOrDefault(p => p.Name == "ReminderTime");
+                    ReminderTime = config.Value;
+                }
                 var now = DateTime.Now.TimeOfDay.ToString(@"hh\:mm");
-                if (now == "09:00")
+                if (now == ReminderTime)
                 {
                     await SendEmail("driving licence", 30);
                     await SendEmail("operating licence", 30);

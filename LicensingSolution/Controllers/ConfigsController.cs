@@ -12,44 +12,44 @@ using Microsoft.AspNetCore.Authorization;
 namespace LicensingSolution.Controllers
 {
     [Authorize(Roles = "Admin,Superuser")]
-    public class AssociationsController : Controller
+    public class ConfigsController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public AssociationsController(ApplicationDbContext context)
+        public ConfigsController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Associations
+        // GET: Configs
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Associations.Include(o => o.Owners).ToListAsync());
+            return View(await _context.Config.ToListAsync());
         }
 
-        // GET: Associations/Create
+        // GET: Configs/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Associations/Create
+        // POST: Configs/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("AssociationId,Name")] Association association)
+        public async Task<IActionResult> Create([Bind("Id,Name,Value")] Config config)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(association);
+                _context.Add(config);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(association);
+            return View(config);
         }
 
-        // GET: Associations/Edit/5
+        // GET: Configs/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -57,22 +57,22 @@ namespace LicensingSolution.Controllers
                 return NotFound();
             }
 
-            var association = await _context.Associations.FindAsync(id);
-            if (association == null)
+            var config = await _context.Config.FindAsync(id);
+            if (config == null)
             {
                 return NotFound();
             }
-            return View(association);
+            return View(config);
         }
 
-        // POST: Associations/Edit/5
+        // POST: Configs/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("AssociationId,Name")] Association association)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Value")] Config config)
         {
-            if (id != association.AssociationId)
+            if (id != config.Id)
             {
                 return NotFound();
             }
@@ -81,12 +81,12 @@ namespace LicensingSolution.Controllers
             {
                 try
                 {
-                    _context.Update(association);
+                    _context.Update(config);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!AssociationExists(association.AssociationId))
+                    if (!ConfigExists(config.Id))
                     {
                         return NotFound();
                     }
@@ -97,10 +97,10 @@ namespace LicensingSolution.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(association);
+            return View(config);
         }
 
-        // GET: Associations/Delete/5
+        // GET: Configs/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -108,31 +108,30 @@ namespace LicensingSolution.Controllers
                 return NotFound();
             }
 
-            var association = await _context.Associations
-                .Include(o => o.Owners)
-                .FirstOrDefaultAsync(m => m.AssociationId == id);
-            if (association == null)
+            var config = await _context.Config
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (config == null)
             {
                 return NotFound();
             }
 
-            return View(association);
+            return View(config);
         }
 
-        // POST: Associations/Delete/5
+        // POST: Configs/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var association = await _context.Associations.FindAsync(id);
-            _context.Associations.Remove(association);
+            var config = await _context.Config.FindAsync(id);
+            _context.Config.Remove(config);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool AssociationExists(int id)
+        private bool ConfigExists(int id)
         {
-            return _context.Associations.Include(o => o.Owners).Any(e => e.AssociationId == id);
+            return _context.Config.Any(e => e.Id == id);
         }
     }
 }

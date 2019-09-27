@@ -1,8 +1,9 @@
-﻿@model IEnumerable<LicensingSolution.Models.OperatingLicence>
+﻿@model IEnumerable<LicensingSolution.Models.Config>
 
 @{
     ViewData["Title"] = "Index";
 }
+
 <!DOCTYPE html>
 <html>
 <body class="sidebar-mini fixed">
@@ -14,19 +15,10 @@
                         <thead>
                             <tr>
                                 <th>
-                                    Licence Number
+                                    @Html.DisplayNameFor(model => model.Name)
                                 </th>
                                 <th>
-                                    Reg. Number
-                                </th>
-                                <th>
-                                    Description
-                                </th>
-                                <th>
-                                    Valid Until
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.Owner)
+                                    @Html.DisplayNameFor(model => model.Value)
                                 </th>
                                 <th>
                                     Options
@@ -36,27 +28,16 @@
                         <tbody>
                             @foreach (var item in Model)
                             {
-                                var vu = item.ValidUntil.ToString("dd-MMM-yyyy");
                                 <tr>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.OperatingLicenceNumber)
+                                        @Html.DisplayFor(modelItem => item.Name)
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.VehRegistrationNumber)
+                                        @Html.DisplayFor(modelItem => item.Value)
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.VehDescription)
-                                    </td>
-                                    <td>
-                                        @vu
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Owner.FullName)
-                                    </td>
-                                    <td>
-                                        <a asp-action="Edit" asp-route-id="@item.VehRegistrationNumber">Edit</a> |
-                                        <a asp-action="Details" asp-route-id="@item.VehRegistrationNumber">Details</a> |
-                                        <a asp-action="Delete" asp-route-id="@item.VehRegistrationNumber">Delete</a>
+                                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                                        @*<a asp-action="Delete" asp-route-id="@item.Id">Delete</a>*@
                                     </td>
                                 </tr>
                             }

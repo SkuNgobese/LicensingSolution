@@ -75,7 +75,8 @@
                     <div class="col-md-6">
                         <div class="form-group row">
                             <label asp-for="Input.AssociationId" class="control-label"></label>
-                            <input asp-for="Input.AssociationId" class="form-control" />
+                            @Html.DropDownListFor(model => model.Input.AssociationId, TempData["AssList"] as List<SelectListItem>, "--Choose Association--", new { @class = "form-control" })
+                            <span asp-validation-for="Input.AssociationId" class="text-danger"></span>
                         </div>
                     </div>
                 </div>

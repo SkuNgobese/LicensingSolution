@@ -41,7 +41,7 @@ namespace LicensingSolution.Areas.Identity.Pages.Account.Manage
 
         public class InputModel
         {
-            [Required(ErrorMessage = "Please choose Salutation")]
+            [Required(ErrorMessage = "Please choose {0}")]
             [Display(Name = "Title")]
             public string Title { get; set; }
 

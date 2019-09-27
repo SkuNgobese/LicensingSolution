@@ -12,7 +12,6 @@ using Newtonsoft.Json;
 
 namespace LicensingSolution.Controllers
 {
-    [Authorize]
     public class OwnersController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -148,6 +147,7 @@ namespace LicensingSolution.Controllers
         }
 
         // GET: Owners/Delete/5
+        [Authorize(Roles = "Admin,Superuser")]
         public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
@@ -167,6 +167,7 @@ namespace LicensingSolution.Controllers
         }
 
         // POST: Owners/Delete/5
+        [Authorize(Roles = "Admin,Superuser")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
