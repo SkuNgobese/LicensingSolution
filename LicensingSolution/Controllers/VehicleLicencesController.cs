@@ -8,23 +8,40 @@ using Microsoft.EntityFrameworkCore;
 using LicensingSolution.Data;
 using LicensingSolution.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace LicensingSolution.Controllers
 {
     public class VehicleLicencesController : Controller
     {
         private readonly ApplicationDbContext _context;
-
-        public VehicleLicencesController(ApplicationDbContext context)
+        private readonly UserManager<ApplicationUser> _userManager;
+        public VehicleLicencesController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: VehicleLicences
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.VehicleLicences.Include(v => v.Owner);
-            return View(await applicationDbContext.ToListAsync());
+            var username = HttpContext.User.Identity.Name;
+            var user = _userManager.Users.FirstOrDefault(u => u.UserName == username);
+            var vehicleLicences = new List<VehicleLicence>();
+
+            if (await _userManager.IsInRoleAsync(user, "Admin") || await _userManager.IsInRoleAsync(user, "Superuser"))
+            {
+                vehicleLicences = await _context.VehicleLicences
+                    .Include(v => v.Owner).ToListAsync();
+            }
+            else
+            {
+                vehicleLicences = await _context.VehicleLicences
+                    .Include(v => v.Owner)
+                    .Where(x => x.Owner.AssociationId == user.AssociationId).ToListAsync();
+            }
+
+            return View(vehicleLicences);
         }
 
         // GET: VehicleLicences/Details/5

@@ -24,7 +24,7 @@ namespace LicensingSolution.Controllers
         // GET: Associations
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Associations.Include(o => o.Owners).ToListAsync());
+            return View(await _context.Associations.Include(o => o.Owners).Include(p=>p.ApplicationUsers).ToListAsync());
         }
 
         // GET: Associations/Create
@@ -44,7 +44,7 @@ namespace LicensingSolution.Controllers
             {
                 _context.Add(association);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return View();
             }
             return View(association);
         }

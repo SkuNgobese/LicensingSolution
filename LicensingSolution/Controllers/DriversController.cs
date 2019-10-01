@@ -12,6 +12,7 @@ using System.IO;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace LicensingSolution.Controllers
 {
@@ -19,20 +20,37 @@ namespace LicensingSolution.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly IHostingEnvironment _hostingEnvironment;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public DriversController(ApplicationDbContext context, IHostingEnvironment environment)
+        public DriversController(ApplicationDbContext context, IHostingEnvironment environment, UserManager<ApplicationUser> userManager)
         {
             _context = context;
             _hostingEnvironment = environment;
+            _userManager = userManager;
         }
 
         // GET: Drivers
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Drivers
-                .Include(l => l.DrivingLicence)
-                .Include(d => d.Owner);
-            return View(await applicationDbContext.ToListAsync());
+            var username = HttpContext.User.Identity.Name;
+            var user = _userManager.Users.FirstOrDefault(u => u.UserName == username);
+            var drivers = new List<Driver>();
+
+            if (await _userManager.IsInRoleAsync(user, "Admin") || await _userManager.IsInRoleAsync(user, "Superuser"))
+            {
+                drivers = await _context.Drivers
+                    .Include(l => l.DrivingLicence)
+                    .Include(v => v.Owner).ToListAsync();
+            }
+            else
+            {
+                drivers = await _context.Drivers
+                    .Include(l => l.DrivingLicence)
+                    .Include(v => v.Owner)
+                    .Where(x => x.Owner.AssociationId == user.AssociationId).ToListAsync();
+            }
+
+            return View(drivers);
         }
 
         // GET: Drivers/Details/5

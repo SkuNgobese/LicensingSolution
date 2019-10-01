@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace LicensingSolution.Areas.Identity.Pages.Account.Manage
@@ -25,23 +26,20 @@ namespace LicensingSolution.Areas.Identity.Pages.Account.Manage
         public IList<ApplicationUser> Users = new List<ApplicationUser>();
         public IActionResult OnGet()
         {
-            Users = _userManager.Users.ToList();
+            Users = _userManager.Users.Include(p=>p.Association).Where(p => p.UserName != "i.skngobese@gmail.com").ToList();
             return Page();
         }
 
-        public async Task<IActionResult> Delete(string id)
+        public async Task<IActionResult> OnPostAsync(string id)
         {
-            var user = _userManager.Users.FirstOrDefault(u => u.Id == id);
-
+            var user = await _userManager.FindByIdAsync(id);
             var result = await _userManager.DeleteAsync(user);
-            var userId = await _userManager.GetUserIdAsync(user);
             if (!result.Succeeded)
             {
-                throw new InvalidOperationException($"Unexpected error occurred deleteing user with ID '{user.Id}'.");
+                throw new InvalidOperationException($"Unexpected error occurred while deleting user with ID '{user.Id}'.");
             }
-
+            Users = _userManager.Users.Include(p => p.Association).Where(p=>p.UserName != "i.skngobese@gmail.com").ToList();
             _logger.LogInformation("User with ID '{0}' deleted.", user.Id);
-
             return Page();
         }
     }

@@ -97,11 +97,10 @@
                     @doe
                 </dd>
             </dl>
-
             <form asp-action="Delete">
                 <input type="hidden" asp-for="VehRegisterNumber" />
-                <input type="submit" value="Delete" class="btn btn-danger" /> |
-                <a asp-action="Index">Back to List</a>
+                <button class="btn btn-danger"><i class="fa fa-trash"></i></button>
+                <abbr title="View List"><a class="btn btn-outline-primary icon-btn" href="~/VehicleLicences"><i class="fa fa-list row" style="padding:1px"></i></a></abbr>
             </form>
         </div>
     </div>

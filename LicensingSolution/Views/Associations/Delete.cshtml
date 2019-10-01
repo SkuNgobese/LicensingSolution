@@ -20,8 +20,8 @@
 
         <form asp-action="Delete">
             <input type="hidden" asp-for="AssociationId" />
-            <input type="submit" value="Delete" class="btn btn-danger" /> |
-            <a asp-action="Index">Back to List</a>
+            <button class="btn btn-danger"><i class="fa fa-trash"></i></button>
+            <abbr title="View List"><a class="btn btn-outline-primary icon-btn" href="~/Associations"><i class="fa fa-list row" style="padding:1px"></i></a></abbr>
         </form>
     </div>
 </div>

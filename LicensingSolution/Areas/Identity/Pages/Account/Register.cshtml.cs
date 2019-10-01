@@ -51,10 +51,11 @@ namespace LicensingSolution.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            [Required(ErrorMessage = "Please choose Salutation")]
+            [Required(ErrorMessage = "Please choose {0}")]
             [Display(Name = "Title")]
             public string Title { get; set; }
 
+            [Required(ErrorMessage = "Please enter {0}")]
             [StringLength(50, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 2)]
             [RegularExpression(@"^[a-zA-Z]*$", ErrorMessage = "Please make sure there are no spaces, special characters & numbers on {0}")]
             [Display(Name = "First Name")]
@@ -65,6 +66,7 @@ namespace LicensingSolution.Areas.Identity.Pages.Account
             [Display(Name = "Middle Name")]
             public string MiddleName { get; set; }
 
+            [Required(ErrorMessage = "Please enter {0}")]
             [StringLength(50, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 2)]
             [RegularExpression(@"^[a-zA-Z]*$", ErrorMessage = "Please make sure there are no spaces, special characters & numbers on {0}")]
             [Display(Name = "Last Name")]

@@ -3,116 +3,114 @@
 @{
     ViewData["Title"] = "Edit";
 }
-
-<div class="col-12 grid-margin">
-    <div class="card">
-        <div class="card-body">
-            <h2 class="card-title mdi mdi-rename-box text-lg-right">Operating Licence</h2>
-            <form asp-action="Edit">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <input type="hidden" asp-for="OperatingLicenceNumber" />
-                <input type="hidden" asp-for="OwnerId" />
-                <div class="row mb-20">
-                    <div class="col-md-12">
-                        <div class="form-group row">
-                            <label asp-for="ApplicationNumber" class="control-label"></label>
-                            <input asp-for="ApplicationNumber" class="form-control" />
-                            <span asp-validation-for="ApplicationNumber" class="text-danger"></span>
+<div class="row">
+    <div class="col-12 grid-margin">
+        <div class="card">
+            <div class="card-body">
+                <h2 class="card-title mdi mdi-rename-box text-lg-right">Operating Licence</h2>
+                <form asp-action="Edit">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="OperatingLicenceNumber" />
+                    <input type="hidden" asp-for="OwnerId" />
+                    <div class="row mb-20">
+                        <div class="col-md-12">
+                            <div class="form-group row">
+                                <label asp-for="ApplicationNumber" class="control-label"></label>
+                                <input asp-for="ApplicationNumber" class="form-control" />
+                                <span asp-validation-for="ApplicationNumber" class="text-danger"></span>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="row mb-20">
-                    <div class="col-md-6">
-                        <div class="form-group row">
-                            <label asp-for="AssociationName" class="control-label"></label>
-                            <input asp-for="AssociationName" class="form-control" />
-                            <span asp-validation-for="AssociationName" class="text-danger"></span>
+                    <div class="row mb-20">
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label asp-for="AssociationName" class="control-label"></label>
+                                <input asp-for="AssociationName" class="form-control" />
+                                <span asp-validation-for="AssociationName" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label asp-for="YearOfReg" class="control-label"></label>
+                                <input asp-for="YearOfReg" class="form-control" />
+                                <span asp-validation-for="YearOfReg" class="text-danger"></span>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="form-group row">
-                            <label asp-for="YearOfReg" class="control-label"></label>
-                            <input asp-for="YearOfReg" class="form-control" />
-                            <span asp-validation-for="YearOfReg" class="text-danger"></span>
+                    <div class="row mb-20">
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label asp-for="ValidFrom" class="control-label"></label>
+                                <input asp-for="ValidFrom" class="form-control" />
+                                <span asp-validation-for="ValidFrom" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label asp-for="ValidUntil" class="control-label"></label>
+                                <input asp-for="ValidUntil" class="form-control" />
+                                <span asp-validation-for="ValidUntil" class="text-danger"></span>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="row mb-20">
-                    <div class="col-md-6">
-                        <div class="form-group row">
-                            <label asp-for="ValidFrom" class="control-label"></label>
-                            <input asp-for="ValidFrom" class="form-control" />
-                            <span asp-validation-for="ValidFrom" class="text-danger"></span>
+                    <div class="row mb-20">
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label asp-for="VehRegistrationNumber" class="control-label"></label>
+                                <input asp-for="VehRegistrationNumber" class="form-control" />
+                                <span asp-validation-for="VehRegistrationNumber" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label asp-for="EngineNumber" class="control-label"></label>
+                                <input asp-for="EngineNumber" class="form-control" />
+                                <span asp-validation-for="EngineNumber" class="text-danger"></span>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="form-group row">
-                            <label asp-for="ValidUntil" class="control-label"></label>
-                            <input asp-for="ValidUntil" class="form-control" />
-                            <span asp-validation-for="ValidUntil" class="text-danger"></span>
+                    <div class="row mb-20">
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label asp-for="Manufacturer" class="control-label"></label>
+                                <input asp-for="Manufacturer" class="form-control" />
+                                <span asp-validation-for="Manufacturer" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label asp-for="VehDescription" class="control-label"></label>
+                                <input asp-for="VehDescription" class="form-control" />
+                                <span asp-validation-for="VehDescription" class="text-danger"></span>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="row mb-20">
-                    <div class="col-md-6">
-                        <div class="form-group row">
-                            <label asp-for="VehRegistrationNumber" class="control-label"></label>
-                            <input asp-for="VehRegistrationNumber" class="form-control" />
-                            <span asp-validation-for="VehRegistrationNumber" class="text-danger"></span>
+                    <div class="row mb-20">
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label asp-for="Passengers" class="control-label"></label>
+                                <input asp-for="Passengers" class="form-control" />
+                                <span asp-validation-for="Passengers" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label asp-for="VehMass" class="control-label"></label>
+                                <input asp-for="VehMass" class="form-control" />
+                                <span asp-validation-for="VehMass" class="text-danger"></span>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="form-group row">
-                            <label asp-for="EngineNumber" class="control-label"></label>
-                            <input asp-for="EngineNumber" class="form-control" />
-                            <span asp-validation-for="EngineNumber" class="text-danger"></span>
-                        </div>
+                    <div class="form-group row">
+                        <input type="submit" value="Save" class="btn btn-primary" />
                     </div>
-                </div>
-                <div class="row mb-20">
-                    <div class="col-md-6">
-                        <div class="form-group row">
-                            <label asp-for="Manufacturer" class="control-label"></label>
-                            <input asp-for="Manufacturer" class="form-control" />
-                            <span asp-validation-for="Manufacturer" class="text-danger"></span>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group row">
-                            <label asp-for="VehDescription" class="control-label"></label>
-                            <input asp-for="VehDescription" class="form-control" />
-                            <span asp-validation-for="VehDescription" class="text-danger"></span>
-                        </div>
-                    </div>
-                </div>
-                <div class="row mb-20">
-                    <div class="col-md-6">
-                        <div class="form-group row">
-                            <label asp-for="Passengers" class="control-label"></label>
-                            <input asp-for="Passengers" class="form-control" />
-                            <span asp-validation-for="Passengers" class="text-danger"></span>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group row">
-                            <label asp-for="VehMass" class="control-label"></label>
-                            <input asp-for="VehMass" class="form-control" />
-                            <span asp-validation-for="VehMass" class="text-danger"></span>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <input type="submit" value="Save" class="btn btn-primary" />
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
     </div>
 </div>
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+<abbr title="View List"><a class="btn btn-outline-primary icon-btn" href="~/OperatingLicences"><i class="fa fa-list row" style="padding:1px"></i></a></abbr>
 
 @section Scripts {
-    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

@@ -9,16 +9,18 @@ using LicensingSolution.Data;
 using LicensingSolution.Models;
 using Microsoft.AspNetCore.Authorization;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.Identity;
 
 namespace LicensingSolution.Controllers
 {
     public class OwnersController : Controller
     {
         private readonly ApplicationDbContext _context;
-
-        public OwnersController(ApplicationDbContext context)
+        private readonly UserManager<ApplicationUser> _userManager;
+        public OwnersController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         public void PopulateAssociationsDropdownList()
@@ -37,12 +39,29 @@ namespace LicensingSolution.Controllers
         // GET: Owners
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Owners
-                .Include(a => a.Association)
-                .Include(d => d.Drivers)
-                .Include(o => o.OperatingLicences)
-                .Include(v => v.VehicleLicences);
-            return View(await applicationDbContext.ToListAsync());
+            var username = HttpContext.User.Identity.Name;
+            var user = _userManager.Users.FirstOrDefault(u => u.UserName == username);
+            var owners = new List<Owner>();
+
+            if (await _userManager.IsInRoleAsync(user, "Admin") || await _userManager.IsInRoleAsync(user, "Superuser"))
+            {
+                owners = await _context.Owners
+                    .Include(a => a.Association)
+                    .Include(d => d.Drivers)
+                    .Include(o => o.OperatingLicences)
+                    .Include(v => v.VehicleLicences).ToListAsync();
+            }
+            else
+            {
+                owners = await _context.Owners
+                    .Include(a => a.Association)
+                    .Include(d => d.Drivers)
+                    .Include(o => o.OperatingLicences)
+                    .Include(v => v.VehicleLicences)
+                    .Where(x => x.AssociationId == user.AssociationId).ToListAsync();
+            }
+
+            return View(owners);
         }
 
         // GET: Owners/Details/5
@@ -180,7 +199,8 @@ namespace LicensingSolution.Controllers
                 .FirstOrDefaultAsync(m => m.OwnerId == id);
             foreach(var driver in owner.Drivers)
             {
-                _context.DrivingLicences.Remove(driver.DrivingLicence);
+                var drivingLicence = await _context.DrivingLicences.FirstOrDefaultAsync(p => p.DriverId == driver.DriverId);
+                _context.DrivingLicences.Remove(drivingLicence);
                 _context.Drivers.Remove(driver);
             }
             foreach (var operatingLicence in owner.OperatingLicences)

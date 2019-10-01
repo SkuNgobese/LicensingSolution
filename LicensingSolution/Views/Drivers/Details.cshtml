@@ -51,7 +51,8 @@
         </dl>
     </div>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.DriverId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+<br />
+<form asp-action="Edit" asp-route-id="@Model.DriverId" method="get">
+    <button class="btn btn-primary"><i class="fa fa-edit"></i></button>
+    <abbr title="View List"><a class="btn btn-outline-primary icon-btn" href="~/Drivers"><i class="fa fa-list row" style="padding:1px"></i></a></abbr>
+</form>

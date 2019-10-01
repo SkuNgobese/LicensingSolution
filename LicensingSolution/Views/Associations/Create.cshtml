@@ -3,29 +3,28 @@
 @{
     ViewData["Title"] = "Create";
 }
-<div class="col-12 grid-margin">
-    <div class="card">
-        <div class="card-body">
-            <h2 class="card-title mdi mdi-rename-box text-lg-right">Association</h2>
-            <form asp-action="Create">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="form-group row">
-                    <label asp-for="Name" class="control-label"></label>
-                    <input asp-for="Name" class="form-control" />
-                    <span asp-validation-for="Name" class="text-danger"></span>
-                </div>
-                <div class="form-group row">
-                    <input type="submit" value="Submit" class="btn btn-primary" />
-                </div>
-            </form>
+<div class="row">
+    <div class="col-12 grid-margin">
+        <div class="card">
+            <div class="card-body">
+                <h2 class="card-title mdi mdi-plus-box text-lg-right">Association</h2>
+                <form asp-action="Create">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group row">
+                        <label asp-for="Name" class="control-label"></label>
+                        <input asp-for="Name" class="form-control" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <div class="form-group row">
+                        <input type="submit" value="Submit" class="btn btn-primary" />
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 </div>
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+<abbr title="View List"><a class="btn btn-outline-primary icon-btn" href="~/Associations"><i class="fa fa-list row" style="padding:1px"></i></a></abbr>
 
 @section Scripts {
-    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<LicensingSolution.Models.Association>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Associations";
 }
 <!DOCTYPE html>
 <html>
@@ -20,6 +20,9 @@
                                     @Html.DisplayNameFor(model => model.Owners)
                                 </th>
                                 <th>
+                                    Users
+                                </th>
+                                <th>
                                     Options
                                 </th>
                             </tr>
@@ -28,6 +31,7 @@
                             @foreach (var item in Model)
                             {
                                 var owners = item.Owners.Count();
+                                var users = item.ApplicationUsers.Count();
                                 <tr>
                                     <td>
                                         @Html.DisplayFor(modelItem => item.Name)
@@ -36,8 +40,11 @@
                                         @owners.ToString()
                                     </td>
                                     <td>
-                                        <a asp-action="Edit" asp-route-id="@item.AssociationId">Edit</a> |
-                                        <a asp-action="Delete" asp-route-id="@item.AssociationId">Delete</a>
+                                        @users.ToString()
+                                    </td>
+                                    <td>
+                                        @Html.ActionLink("Edit", "Edit", new { id = item.AssociationId }, new { @class = "btn btn-warning icon-btn fa fa-edit", @style = "padding:1px" }) |
+                                        @Html.ActionLink("Del", "Delete", new { id = item.AssociationId }, new { @class = "btn btn-danger icon-btn fa fa-trash", @style = "padding:1px" })
                                     </td>
                                 </tr>
                             }
@@ -47,10 +54,15 @@
             </div>
         </div>
     </div>
+    <br />
+    <abbr title="Add New"><a class="btn btn-outline-primary icon-btn" href="~/Associations/Create"><i class="fa fa-plus row" style="padding:1px"></i></a></abbr>
+
     <script src="~/DataTables/jquery-3.4.1.js"></script>
     <link href="~/DataTables/DataTables-1.10.18/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
     <link href="~/DataTables/datatables.min.css" rel="stylesheet" type="text/css" />
     <script src="~/DataTables/datatables.min.js" type="text/javascript"></script>
+    <!-- icon library -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script type="text/javascript">
         $('#table_id').DataTable({
             "scrollY": 250,

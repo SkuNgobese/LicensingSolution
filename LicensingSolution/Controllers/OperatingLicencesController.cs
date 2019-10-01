@@ -8,23 +8,41 @@ using Microsoft.EntityFrameworkCore;
 using LicensingSolution.Data;
 using LicensingSolution.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace LicensingSolution.Controllers
 {
     public class OperatingLicencesController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public OperatingLicencesController(ApplicationDbContext context)
+        public OperatingLicencesController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: OperatingLicences
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.OperatingLicences.Include(o => o.Owner);
-            return View(await applicationDbContext.ToListAsync());
+            var username = HttpContext.User.Identity.Name;
+            var user = _userManager.Users.FirstOrDefault(u => u.UserName == username);
+            var operatingLicences = new List<OperatingLicence>();
+
+            if (await _userManager.IsInRoleAsync(user, "Admin") || await _userManager.IsInRoleAsync(user, "Superuser"))
+            {
+                operatingLicences = await _context.OperatingLicences
+                    .Include(v => v.Owner).ToListAsync();
+            }
+            else
+            {
+                operatingLicences = await _context.OperatingLicences
+                    .Include(v => v.Owner)
+                    .Where(x => x.Owner.AssociationId == user.AssociationId).ToListAsync();
+            }
+
+            return View(operatingLicences);
         }
 
         // GET: OperatingLicences/Details/5
