@@ -37,12 +37,14 @@ namespace LicensingSolution
             {
                 options.AutomaticAuthentication = false;
             });
+
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
+
             services.AddDbContext<ApplicationDbContext>(options =>
                     options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
@@ -55,9 +57,12 @@ namespace LicensingSolution
             .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddDefaultUI(UIFramework.Bootstrap4)
             .AddDefaultTokenProviders();
+
             services.AddHealthChecks();
             services.AddTransient<IEmailSender, EmailSender>();
-            services.Configure<AuthMessageSenderOptions>(Configuration);
+            services.Configure<EmailSenderOptions>(Configuration);
+            services.AddTransient<ISmsSender, SMSSender>();
+            services.Configure<SMSSenderOptions>(Configuration);
 
             services.Configure<IdentityOptions>(options =>
             {
@@ -84,13 +89,14 @@ namespace LicensingSolution
             {
                 options.Cookie.HttpOnly = true;
                 options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
-                
+                options.Cookie.Expiration = TimeSpan.FromDays(1);
                 options.LoginPath = "/Identity/Account/Login";
                 options.AccessDeniedPath = "/Identity/Account/AccessDenied";
                 options.SlidingExpiration = true;
             });
 
             services.AddAntiforgery(options => options.HeaderName = "X-XSRF-TOKEN");
+
             services.AddMvc(config =>
             {
                 var policy = new AuthorizationPolicyBuilder()
@@ -99,6 +105,7 @@ namespace LicensingSolution
                 config.Filters.Add(new AuthorizeFilter(policy));
             })
             .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
             services.AddSingleton<IHostedService, Reminder>();
             services.AddSingleton<IFileProvider>(new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/ImageFiles")));
             services.AddSingleton(Configuration);
@@ -132,6 +139,7 @@ namespace LicensingSolution
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
         }
+
         public static async Task Initialize(IServiceProvider serviceProvider, string DefaultPW)
         {
             //Load configs
@@ -140,12 +148,14 @@ namespace LicensingSolution
             // Password is set with the following:
             // dotnet user-secrets set DefaultPW <pw>
             // The admin user can do anything
+
             var SuperuserID = await EnsureUser(serviceProvider, DefaultPW, "i.skngobese@gmail.com");
             await EnsureRole(serviceProvider, SuperuserID, "Superuser");
 
             var adminID = await EnsureUser(serviceProvider, DefaultPW, "floyd.mfeka@gmail.com");
             await EnsureRole(serviceProvider, adminID, "Admin");
         }
+
         private static async Task<int> EnsureConfigs(IServiceProvider serviceProvider)
         {
             var result = 0;
@@ -171,7 +181,7 @@ namespace LicensingSolution
             if (user == null)
             {
                 user = new ApplicationUser { UserName = UserName, Email = UserName, EmailConfirmed = true, AssociationId = 1 };
-                var result = await userManager.CreateAsync(user, DefaultPW);
+                await userManager.CreateAsync(user, DefaultPW);
             }
 
             return user.Id;

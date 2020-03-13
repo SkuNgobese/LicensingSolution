@@ -15,9 +15,14 @@ namespace LicensingSolution.Models
         public DrivingLicence() { }
 
         [Key]
+        [RegularExpression(@"^[a-zA-Z0-9]*$", ErrorMessage = "Please make sure {0} does not have spaces or special characters")]
         [Required(ErrorMessage = "Please enter the {0}")]
-        [Display(Name = "Licence Number")]
+        [Display(Name = "Vehicle Registration")]
         public string LicenceNumber { get; set; }
+
+        [Required(ErrorMessage = "Please enter the {0}")]
+        [Display(Name = "Sticker Number")]
+        public string VehicleStickerNumber { get; set; }
 
         [Required(ErrorMessage = "Please enter the {0}")]
         [Display(Name = "Licence Expiry Date")]

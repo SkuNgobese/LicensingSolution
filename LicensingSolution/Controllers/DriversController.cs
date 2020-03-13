@@ -33,7 +33,7 @@ namespace LicensingSolution.Controllers
         public async Task<IActionResult> Index()
         {
             var username = HttpContext.User.Identity.Name;
-            var user = _userManager.Users.FirstOrDefault(u => u.UserName == username);
+            var user = await _userManager.Users.FirstOrDefaultAsync(u => u.UserName == username);
             var drivers = new List<Driver>();
 
             if (await _userManager.IsInRoleAsync(user, "Admin") || await _userManager.IsInRoleAsync(user, "Superuser"))
@@ -107,14 +107,14 @@ namespace LicensingSolution.Controllers
                 {
                     ModelState.AddModelError("", "Allowed image formats are .jpg/.png/.jpeg");
                 }
-                if (image.Length > (2 * 1024 * 1024))
+                if (image.Length > (3 * 1024 * 1024))
                 {
-                    ModelState.AddModelError("", "You can not upload picture more than 2MB");
+                    ModelState.AddModelError("", "You can not upload picture more than 3MB");
                 }
             }
             if (ModelState.IsValid)
             {
-                if (image.Length > 512)
+                if (image != null && image.Length > 512)
                 {
                     FileInfo fileInfo = new FileInfo(image.FileName);
                     var newImagename = driver.FirstName + (DateTime.Now.Ticks / 10) % 100000000 + driver.LastName + fileInfo.Extension;
@@ -127,9 +127,14 @@ namespace LicensingSolution.Controllers
                     }
                     driver.ImgPath = pathToSave;
                 }
+                if(driver.DriverId == "123")
+                {
+                    driver.DriverId = NextDriverAutoID().ToString("AID000000");
+                }
                 driver.Owner = owner;
                 _context.Add(driver);
                 driver.DrivingLicence.Driver = driver;
+                driver.DrivingLicence.LicenceNumber.Replace(" ", "");
                 _context.Add(driver.DrivingLicence);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -233,9 +238,26 @@ namespace LicensingSolution.Controllers
         {
             return _context.Drivers.Any(e => e.DriverId == id);
         }
+
         private bool DrivingLicenceExists(string id)
         {
             return _context.DrivingLicences.Any(e => e.LicenceNumber == id);
+        }
+
+        private long NextDriverAutoID()
+        {
+            var driver = _context.Drivers
+                .LastOrDefault(m => m.DriverId.StartsWith("AID"));
+            var lastAutoID = "";
+            if (driver != null)
+            {
+                lastAutoID = driver.DriverId.Remove(0, 3);
+            }
+            else
+            {
+                lastAutoID = "000000";
+            }
+            return Convert.ToInt64(lastAutoID) + 1;
         }
     }
 }

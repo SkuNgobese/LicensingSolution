@@ -89,7 +89,7 @@ namespace LicensingSolution.Areas.Identity.Pages.Account.Manage
             {
                 Title = user.Title,
                 FirstName = user.FirstName,
-                MiddleName = user.LastName,
+                MiddleName = user.MiddleName,
                 LastName = user.LastName,
                 Email = email,
                 PhoneNumber = phoneNumber

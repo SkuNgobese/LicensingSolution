@@ -17,14 +17,16 @@ namespace LicensingSolution.Models.Services
     {
         private readonly IConfiguration _configuration;
         private readonly IEmailSender _emailSender;
+        private readonly ISmsSender _smsSender;
         private readonly ILogger _logger;
         [TempData]
         public string ReminderTime { get; set; }
-        public Reminder(IConfiguration configuration, IEmailSender emailSender, ILogger<Reminder> logger)
+        public Reminder(IConfiguration configuration, IEmailSender emailSender, ISmsSender smsSender, ILogger<Reminder> logger)
         {
             _configuration = configuration;
-            _logger = logger;
             _emailSender = emailSender;
+            _smsSender = smsSender;
+            _logger = logger;
         }
         public Task StartAsync(CancellationToken cancellationToken)
         {
@@ -54,12 +56,12 @@ namespace LicensingSolution.Models.Services
                 var now = DateTime.Now.TimeOfDay.ToString(@"hh\:mm");
                 if (now == ReminderTime)
                 {
-                    await SendEmail("driving licence", 30);
-                    await SendEmail("operating licence", 30);
-                    await SendEmail("licence disc", 30);
-                    await SendEmail("driving licence", 7);
-                    await SendEmail("operating licence", 7);
-                    await SendEmail("licence disc", 7);
+                    await SendReminder("driving licence", 30);
+                    await SendReminder("operating licence", 30);
+                    await SendReminder("licence disc", 30);
+                    await SendReminder("driving licence", 7);
+                    await SendReminder("operating licence", 7);
+                    await SendReminder("licence disc", 7);
                 }
                 DateTime nextStop = DateTime.Now.AddMinutes(1);
                 var timeToWait = nextStop - DateTime.Now;
@@ -68,7 +70,7 @@ namespace LicensingSolution.Models.Services
             }
         }
 
-        public async Task SendEmail(string licenceType, int days)
+        public async Task SendReminder(string licenceType, int days)
         {
             var owners = new List<Owner>();
             var optionBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
@@ -85,6 +87,10 @@ namespace LicensingSolution.Models.Services
                         {
                             await _emailSender.SendEmailAsync(owner.EmailAddress, $"{licenceType} expires soon", Message(owner.FirstName, days, licenceType, driver.FullName));
                         }
+                        //if (owner.PrimaryContactNumber != "")
+                        //{
+                        //    await _smsSender.SendSmsAsync(owner.PrimaryContactNumber, Message(owner.FirstName, days, licenceType, driver.FullName));
+                        //}
                     }
                 }
                 if (licenceType.ToLower() == "operating licence")
@@ -97,8 +103,12 @@ namespace LicensingSolution.Models.Services
                             var owner = operatingLicence.Owner;
                             if (owner.EmailAddress != "")
                             {
-                                await _emailSender.SendEmailAsync(owner.EmailAddress, $"{licenceType} expires soon", Message(owner.FirstName, days, licenceType, operatingLicence.VehRegistrationNumber));
+                                await _emailSender.SendEmailAsync(owner.EmailAddress, $"{licenceType} expires soon", Message(owner.FirstName, days, licenceType,"", operatingLicence.VehRegistrationNumber));
                             }
+                            //if (owner.PrimaryContactNumber != "")
+                            //{
+                            //    await _smsSender.SendSmsAsync(owner.PrimaryContactNumber, Message(owner.FirstName, days, licenceType, "", operatingLicence.VehRegistrationNumber));
+                            //}
                         }
                     }
                 }
@@ -111,10 +121,15 @@ namespace LicensingSolution.Models.Services
                         foreach (var vehicleLicence in vehicleLicences)
                         {
                             var owner = vehicleLicence.Owner;
+                            var regno = vehicleLicence.VehLicenceNumber;
                             if (owner.EmailAddress != "")
                             {
-                                await _emailSender.SendEmailAsync(owner.EmailAddress, $"{licenceType} expires soon", Message(owner.FirstName, days, licenceType, vehicleLicence.VehLicenceNumber));
+                                await _emailSender.SendEmailAsync(owner.EmailAddress, $"{licenceType} expires soon", Message(owner.FirstName, days, licenceType, "", vehicleLicence.VehLicenceNumber));
                             }
+                            //if (owner.PrimaryContactNumber != "")
+                            //{
+                            //    await _smsSender.SendSmsAsync(owner.PrimaryContactNumber, Message(owner.FirstName, days, licenceType, "", vehicleLicence.VehLicenceNumber));
+                            //}
                         }
                     }
                 }
@@ -126,15 +141,15 @@ namespace LicensingSolution.Models.Services
             if (licenceType.ToLower() == "driving licence")
             {
                 licenceType = $"{licenceType}/PDP";
-                return $"Dear {fname},<br><br>This is to inform you that the {licenceType} for {drivername} is due for renewal in {days} days.<br><br><br>Best Regards,<br><br>Licencing Solution";
+                return $"Dear {fname},<br><br>This is to inform you that the {licenceType} for {drivername} is due for renewal in {days} days.<br><br><br>Best Regards,<br><br>Licence Solution Team";
             }
             if (licenceType.ToLower() == "operating licence")
             {
-                return $"Dear {fname},<br><br>This is to inform you that the {licenceType} for {regnumber} is due for renewal in {days} days.<br><br><br>Best Regards,<br><br>Licencing Solution";
+                return $"Dear {fname},<br><br>This is to inform you that the {licenceType} for {regnumber} is due for renewal in {days} days.<br><br><br>Best Regards,<br><br>Licence Solution Team";
             }
             if (licenceType.ToLower() == "licence disc")
             {
-                return $"Dear {fname},<br><br>This is to inform you that the {licenceType} for {regnumber} is due for renewal in {days} days.<br><br><br>Best Regards,<br><br>Licencing Solution";
+                return $"Dear {fname},<br><br>This is to inform you that the {licenceType} for {regnumber} is due for renewal in {days} days.<br><br><br>Best Regards,<br><br>Licence Solution Team";
             }
             return null;
         }

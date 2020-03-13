@@ -19,16 +19,22 @@
                 @Html.DisplayFor(model => model.FullName)
             </dd>
             <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.DriverId)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.DriverId)
+            </dd>
+            <dt class="col-sm-2">
                 @Html.DisplayNameFor(model => model.DrivingLicence.LicenceNumber)
             </dt>
             <dd class="col-sm-10">
                 @Html.DisplayFor(model => model.DrivingLicence.LicenceNumber)
             </dd>
             <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.DriverId)
+                @Html.DisplayNameFor(model => model.DrivingLicence.VehicleStickerNumber)
             </dt>
             <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.DriverId)
+                @Html.DisplayFor(model => model.DrivingLicence.VehicleStickerNumber)
             </dd>
             <dt class="col-sm-2">
                 @Html.DisplayNameFor(model => model.DrivingLicence.LicenceExpiryDate)

@@ -124,7 +124,29 @@ namespace LicensingSolution.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var association = await _context.Associations.FindAsync(id);
+            var association = await _context.Associations.Include(o=>o.Owners).FirstOrDefaultAsync(p=>p.AssociationId == id);
+
+            foreach (var owner in association.Owners)
+            {
+                var drivers = await _context.Drivers.Include(d=>d.DrivingLicence).Where(p => p.OwnerId == owner.OwnerId).ToListAsync();
+                foreach (var driver in drivers)
+                {
+                    _context.DrivingLicences.Remove(driver.DrivingLicence);
+                    _context.Drivers.Remove(driver);
+                }
+                var operatingLicences = await _context.OperatingLicences.Where(p => p.OwnerId == owner.OwnerId).ToListAsync();
+                foreach (var operatingLicence in operatingLicences)
+                {
+                    _context.OperatingLicences.Remove(operatingLicence);
+                }
+                var vehicleLicences = await _context.VehicleLicences.Where(p => p.OwnerId == owner.OwnerId).ToListAsync();
+                foreach (var vehicleLicence in vehicleLicences)
+                {
+                    _context.VehicleLicences.Remove(vehicleLicence);
+                }
+                _context.Owners.Remove(owner);
+            }
+
             _context.Associations.Remove(association);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
@@ -132,7 +154,7 @@ namespace LicensingSolution.Controllers
 
         private bool AssociationExists(int id)
         {
-            return _context.Associations.Include(o => o.Owners).Any(e => e.AssociationId == id);
+            return _context.Associations.Any(e => e.AssociationId == id);
         }
     }
 }

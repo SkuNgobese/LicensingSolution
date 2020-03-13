@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace LicensingSolution.Models.Services
 {
-    public class AuthMessageSenderOptions
+    public class EmailSenderOptions
     {
         public string Email { get; set; }
         public string SendGridUser { get; set; }

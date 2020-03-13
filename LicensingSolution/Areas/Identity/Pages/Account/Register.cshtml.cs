@@ -121,7 +121,7 @@ namespace LicensingSolution.Areas.Identity.Pages.Account
             returnUrl = returnUrl ?? Url.Content("~/");
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email, Title = Input.Title, FirstName = Input.FirstName, MiddleName = Input.MiddleName, LastName = Input.LastName, AssociationId = Input.AssociationId };
+                var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email, EmailConfirmed = true, Title = Input.Title, FirstName = Input.FirstName, MiddleName = Input.MiddleName, LastName = Input.LastName, AssociationId = Input.AssociationId };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
@@ -149,7 +149,7 @@ namespace LicensingSolution.Areas.Identity.Pages.Account
                         protocol: Request.Scheme);
 
                     await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                        $"Dear {user.FullName},<p>You are now registered as a user for Licence Solution.<br>Username: {user.UserName}<br>Password: {Input.Password}</p><p>Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.</p><br><br>Best Regards,<br><br>Licence Solution Team");
 
                     StatusMessage = "User registered successfully";
                     return LocalRedirect(returnUrl);

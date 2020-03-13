@@ -11,12 +11,12 @@ namespace LicensingSolution.Models.Services
 {
     public class EmailSender : IEmailSender
     {
-        public EmailSender(IOptions<AuthMessageSenderOptions> optionsAccessor)
+        public EmailSender(IOptions<EmailSenderOptions> optionsAccessor)
         {
             Options = optionsAccessor.Value;
         }
 
-        public AuthMessageSenderOptions Options { get; } //set only via Secret Manager
+        public EmailSenderOptions Options { get; } //set only via Secret Manager
 
         public Task SendEmailAsync(string email, string subject, string message)
         {
@@ -27,7 +27,7 @@ namespace LicensingSolution.Models.Services
             var client = new SendGridClient(apiKey);
             var msg = new SendGridMessage()
             {
-                From = new EmailAddress(Options.Email, "Licencing Solution"),
+                From = new EmailAddress(Options.Email, "Licence Solution"),
                 Subject = subject,
                 PlainTextContent = message,
                 HtmlContent = message
