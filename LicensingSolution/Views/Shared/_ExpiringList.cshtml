@@ -1,8 +1,8 @@
-﻿@model IEnumerable<LicensingSolution.Models.Driver>
-
+﻿@using LicensingSolution.Models.ViewModels
 @{
-    ViewData["Title"] = "Driver Operators";
+    var list = (ExpiringListViewModel)ViewData["ExpiringList"];
 }
+
 <!DOCTYPE html>
 <html>
 <body class="sidebar-mini fixed">
@@ -14,19 +14,19 @@
                         <thead>
                             <tr>
                                 <th>
-                                    @Html.DisplayNameFor(model => model.FullName)
+                                    @Html.DisplayName("")
                                 </th>
                                 <th>
-                                    @Html.DisplayNameFor(model => model.DriverId)
+                                    @Html.DisplayName("")
                                 </th>
                                 <th>
-                                    @Html.DisplayNameFor(model => model.DrivingLicence.LicenceExpiryDate)
+                                    @Html.DisplayName("")
                                 </th>
                                 <th>
-                                    @Html.DisplayNameFor(model => model.DrivingLicence.PDPExpiryDate)
+                                    @Html.DisplayName("")
                                 </th>
                                 <th>
-                                    @Html.DisplayNameFor(model => model.Owner)
+                                    @Html.DisplayName("")
                                 </th>
                                 <th>
                                     Options
@@ -34,9 +34,9 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var item in Model)
+                            @foreach (var item in list.Drivers)
                             {
-                                var led = item.DrivingLicence.LicenceExpiryDate.ToString("dd-MMM-yyyy");
+                                @*var led = item.DrivingLicence.LicenceExpiryDate.ToString("dd-MMM-yyyy");
                                 var pdped = item.DrivingLicence.PDPExpiryDate.ToString("dd-MMM-yyyy");
                                 <tr>
                                     <td>
@@ -59,7 +59,7 @@
                                         @Html.ActionLink("Edit", "Edit", new { id = item.DriverId }, new { @class = "btn btn-warning icon-btn fa fa-edit", @style = "padding:1px" }) |
                                         @Html.ActionLink("Del", "Delete", new { id = item.DriverId }, new { @class = "btn btn-danger icon-btn fa fa-trash", @style = "padding:1px" })
                                     </td>
-                                </tr>
+                                </tr>*@
                             }
                         </tbody>
                     </table>
@@ -67,8 +67,6 @@
             </div>
         </div>
     </div>
-    <br />
-    <abbr title="Add New"><a class="btn btn-outline-primary icon-btn" href="~/Drivers/Create"><i class="fa fa-plus row" style="padding:1px"></i></a></abbr>
 
     <script src="~/DataTables/jquery-3.4.1.js"></script>
     <link href="~/DataTables/DataTables-1.10.18/css/dataTables.bootstrap4.min.css" rel="stylesheet" />

@@ -17,11 +17,21 @@
                     <div class="row mb-20">
                         <div class="col-md-6">
                             <div class="form-group row">
+                                <label asp-for="DriverId" class="control-label"></label>
+                                <input asp-for="DriverId" class="form-control" disabled />
+                                <span asp-validation-for="DriverId" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group row">
                                 <label asp-for="FirstName" class="control-label"></label>
                                 <input asp-for="FirstName" class="form-control" />
                                 <span asp-validation-for="FirstName" class="text-danger"></span>
                             </div>
                         </div>
+                        
+                    </div>
+                    <div class="row mb-20">
                         <div class="col-md-6">
                             <div class="form-group row">
                                 <label asp-for="MiddleName" class="control-label"></label>
@@ -29,13 +39,20 @@
                                 <span asp-validation-for="MiddleName" class="text-danger"></span>
                             </div>
                         </div>
-                    </div>
-                    <div class="row mb-20">
                         <div class="col-md-6">
                             <div class="form-group row">
                                 <label asp-for="LastName" class="control-label"></label>
                                 <input asp-for="LastName" class="form-control" />
                                 <span asp-validation-for="LastName" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-20">
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label asp-for="DrivingLicence.LicenceNumber" class="control-label"></label>
+                                <input asp-for="DrivingLicence.LicenceNumber" class="form-control" disabled />
+                                <span asp-validation-for="DrivingLicence.LicenceNumber" class="text-danger"></span>
                             </div>
                         </div>
                         <div class="col-md-6">

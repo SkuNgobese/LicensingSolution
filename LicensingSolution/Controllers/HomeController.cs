@@ -23,25 +23,26 @@ namespace LicensingSolution.Controllers
             _configuration = configuration;
             _userManager = userManager;
         }
+
         public async Task<IActionResult> Index()
         {
             var reportModel = new List<ReportViewModel>();
-            var username = HttpContext.User.Identity.Name;
-
+            var username = HttpContext.User.Identity.Name;           
             var optionBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
             optionBuilder.UseSqlServer(_configuration.GetConnectionString("DefaultConnection"));
             using (var _context = new ApplicationDbContext(optionBuilder.Options))
             {
                 var user = _userManager.Users.FirstOrDefault(u => u.UserName == username);
-                
+                var drivers = new List<Driver>();
+                var operatingLicences = new List<OperatingLicence>();
+                var vehicleLicences = new List<VehicleLicence>();
+                int driversQuant;
+                int operatingLicencesQaunt;
+                int vehicleLicencesQuant;
                 var months = 3;
-                var drivers = await _context.Drivers.Include(o => o.Owner).Where(x => x.Owner.AssociationId == user.AssociationId && (x.DrivingLicence.LicenceExpiryDate.Date.AddMonths(-months) <= DateTime.Today || x.DrivingLicence.PDPExpiryDate.AddMonths(-months) <= DateTime.Today)).ToListAsync();
-                var driversQuant = await _context.Drivers.Where(p=>p.Owner.AssociationId == user.AssociationId).CountAsync();
-                var operatingLicences = await _context.OperatingLicences.Include(o => o.Owner).Where(y => y.Owner.AssociationId == user.AssociationId && y.ValidUntil.AddMonths(-months) <= DateTime.Today).ToListAsync();
-                var operatingLicencesQaunt = await _context.OperatingLicences.Where(p => p.Owner.AssociationId == user.AssociationId).CountAsync();
-                var vehicleLicences = await _context.VehicleLicences.Include(o => o.Owner).Where(y => y.Owner.AssociationId == user.AssociationId && y.DateOfExpiry.AddMonths(-months) <= DateTime.Today).ToListAsync();
-                var vehicleLicencesQuant = await _context.VehicleLicences.Where(p => p.Owner.AssociationId == user.AssociationId).CountAsync();
+
                 
+
                 if (await _userManager.IsInRoleAsync(user, "Admin") || await _userManager.IsInRoleAsync(user, "Superuser"))
                 {
                     drivers = await _context.Drivers.Include(o => o.Owner).Where(x => x.DrivingLicence.LicenceExpiryDate.Date.AddMonths(-months) <= DateTime.Today || x.DrivingLicence.PDPExpiryDate.AddMonths(-months) <= DateTime.Today).ToListAsync();
@@ -51,6 +52,24 @@ namespace LicensingSolution.Controllers
                     vehicleLicences = await _context.VehicleLicences.Include(o => o.Owner).Where(y => y.DateOfExpiry.AddMonths(-months) <= DateTime.Today).ToListAsync();
                     vehicleLicencesQuant = await _context.VehicleLicences.CountAsync();
                 }
+                else
+                {
+                    drivers = await _context.Drivers.Include(o => o.Owner).Where(x => x.Owner.AssociationId == user.AssociationId && (x.DrivingLicence.LicenceExpiryDate.Date.AddMonths(-months) <= DateTime.Today || x.DrivingLicence.PDPExpiryDate.AddMonths(-months) <= DateTime.Today)).ToListAsync();
+                    driversQuant = await _context.Drivers.Where(p => p.Owner.AssociationId == user.AssociationId).CountAsync();
+                    operatingLicences = await _context.OperatingLicences.Include(o => o.Owner).Where(y => y.Owner.AssociationId == user.AssociationId && y.ValidUntil.AddMonths(-months) <= DateTime.Today).ToListAsync();
+                    operatingLicencesQaunt = await _context.OperatingLicences.Where(p => p.Owner.AssociationId == user.AssociationId).CountAsync();
+                    vehicleLicences = await _context.VehicleLicences.Include(o => o.Owner).Where(y => y.Owner.AssociationId == user.AssociationId && y.DateOfExpiry.AddMonths(-months) <= DateTime.Today).ToListAsync();
+                    vehicleLicencesQuant = await _context.VehicleLicences.Where(p => p.Owner.AssociationId == user.AssociationId).CountAsync();
+                }
+
+                var ExpiringList = new ExpiringListViewModel
+                {
+                    Drivers = drivers,
+                    OperatingLicences = operatingLicences,
+                    VehicleLicences = vehicleLicences
+                };
+
+                ViewData["ExpiringList"] = ExpiringList;
 
                 reportModel.Add(new ReportViewModel
                 {
